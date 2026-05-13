@@ -15,66 +15,133 @@ def generate_features(train_start_date,test_end_date):
     df = df.loc[train_start_date:test_end_date]
 
 
+    df_bench = pd.read_csv('../data/raw/prices_bench.csv', index_col='Date', parse_dates=True)
+    df_bench = df_bench.loc[train_start_date:test_end_date]
+
+    risk_free_rate = pd.read_csv('../data/raw/risk_free_rate.csv', index_col='Date', parse_dates=True)
 
 
-    price_monthly = df.resample("ME").mean()
-    valid_names =(price_monthly.iloc[0]!=0) & (price_monthly.iloc[0].notna()) & (price_monthly.iloc[0].notnull())
-    price_monthly=price_monthly.loc[:,valid_names]
+    price_monthly = df.resample("ME").last()
+    #valid_names =(price_monthly.iloc[0]!=0) & (price_monthly.iloc[0].notna()) & (price_monthly.iloc[0].notnull())
+    #price_monthly=price_monthly.loc[:,valid_names]
 
-    #df.resample("ME").mean()
-    #df.rolling(21).mean()
-
-    #exists= (price_monthly >0.1).astype(int)
-    #exists_5y=exists.copy()
-    #exists_5y.index = exists_5y.index - pd.DateOffset(years=5)
     ret_1m=price_monthly.pct_change(1)
     ret_3m=price_monthly.pct_change(3)
     ret_6m=price_monthly.pct_change(6)
     ret_12m=price_monthly.pct_change(12)
 
-    vol_1m = df.resample("ME").std()
-    vol_1m= vol_1m.loc[:,valid_names]
-    vol_3m = vol_1m.rolling(window=3).mean()
-    vol_6m = vol_1m.rolling(window=6).mean()
-    vol_12m = vol_1m.rolling(window=12).mean()
+    daily_ret = df.pct_change()
+    std_1m = daily_ret.resample("ME").std()
+
+    std_3m = daily_ret.rolling(window=63).std().resample("ME").last()
+    std_6m = daily_ret.rolling(window=126).std().resample("ME").last()
+    std_12m = daily_ret.rolling(window=252).std().resample("ME").last()
     ret_next_month = ret_1m.shift(-1)
 
 
+    bench_price = df_bench.iloc[:, 0]
+    price_monthly_bench = bench_price.resample("ME").last()
 
-    averages = pd.concat(
+    ret_1m_bench=price_monthly_bench.pct_change(1)
+    ret_1y_bench=price_monthly_bench.pct_change(12)
+
+    daily_ret_bench  = bench_price.pct_change()
+    std_1m_bench  = daily_ret_bench.resample("ME").std()
+    std_1y_bench = daily_ret_bench.rolling(window=252).std().resample("ME").last()
+
+    rolling_window = 252
+    min_periods = 126
+
+    beta_1y_daily = (
+        daily_ret
+        .rolling(window=rolling_window, min_periods=min_periods)
+        .cov(daily_ret_bench)
+        .div(
+            daily_ret_bench.rolling(window=rolling_window, min_periods=min_periods).var(),
+            axis=0
+        )
+    )
+
+    beta_1y = beta_1y_daily.resample("ME").last()
+
+    beta_ret_1y=pd.DataFrame([beta_1y.loc[:,col]*ret_1m_bench for col in beta_1y.columns]).T
+    beta_ret_1y.columns= beta_1y.columns
+
+
+    beta_std_1y=pd.DataFrame([beta_1y.loc[:,col]*ret_1m_bench for col in beta_1y.columns]).T
+    beta_std_1y.columns= beta_1y.columns
+
+    adj_ret_1m = pd.DataFrame(
+        [ret_1m.loc[:, col] - risk_free_rate.loc[ret_1m.index, 'rf_monthly'] for col in
+         ret_1m.columns]).T
+    adj_ret_1m.columns = ret_1m.columns
+
+
+    adj_ret_next_month=pd.DataFrame([ret_next_month.loc[:, col]-risk_free_rate.loc[ret_next_month.index,'rf_monthly']  for col in ret_next_month.columns]).T
+    adj_ret_next_month.columns= ret_next_month.columns
+
+    #print(adj_ret_next_month)
+    #print(ret_next_month)
+
+    Stock_propeties = pd.concat(
         {
             "price_m": price_monthly,
             #'exists': exists,
             "ret_m1": ret_1m,
+            #"adj_ret_1m": adj_ret_1m,
             "ret_m3": ret_3m,
             "ret_m6": ret_6m,
             "ret_y1": ret_12m,
-            'vol_m1': vol_1m,
-            'vol_m3': vol_3m,
-            'vol_m6': vol_6m,
-            'vol_y1': vol_12m,
+            'std_m1': std_1m,
+            'std_m3': std_3m,
+            'std_m6': std_6m,
+            'std_y1': std_12m,
+            'beta_ret_1y': beta_ret_1y,
+            'beta_std_1y': beta_std_1y,
             'ret_next_month': ret_next_month,
+            #'adj_ret_next_month': adj_ret_next_month,#-risk_free_rate,
         },
         axis=1
     )
 
-    averages = averages.swaplevel(axis=1).sort_index(axis=1)
+    Stock_propeties = Stock_propeties.swaplevel(axis=1).sort_index(axis=1)
 
-    averages.index.name = "date"
-    averages.columns.names = ["stock", "feature"]
-    averages = (
-        averages
+    Stock_propeties.index.name = "date"
+    Stock_propeties.columns.names = ["stock", "feature"]
+
+    Stock_propeties = (
+        Stock_propeties
         .stack(level="stock")
         .reset_index()
     )
+    #Stock_propeties["ret_1m_bench"] = Stock_propeties["date"].map(ret_1m_bench)
+    #Stock_propeties["beta*ret_1y_bench"] = Stock_propeties["date"].map(ret_1y_bench)
+    #Stock_propeties["beta*std_1y_bench"] = Stock_propeties["date"].map(std_1y_bench)
     #averages = averages.sort_values(["date", "stock"])
-    feature_cols = ["price_m","ret_m1", "ret_m3", "ret_m6", "ret_y1", 'vol_m1', 'vol_m3', 'vol_m6', 'vol_y1','ret_next_month']
-    averages = averages.replace([np.inf, -np.inf], np.nan)
-    averages = averages.dropna(subset=feature_cols)
-    averages = averages.set_index(['date',	'stock'])
+
+    #feature_cols = ["price_m","ret_m1", "ret_m3", "ret_m6", "ret_y1", 'std_m1', 'std_m3', 'std_m6', 'std_y1','beta_1y',"ret_1m_bench","ret_1y_bench",'ret_next_month']
+
+    Stock_propeties = Stock_propeties.replace([np.inf, -np.inf], np.nan)
+    Stock_propeties = Stock_propeties.dropna()
+    Stock_propeties = Stock_propeties.set_index(['date',	'stock'])
+    '''feature_order = [
+        "price_m",
+        "ret_m1",
+        "ret_m3",
+        "ret_m6",
+        "ret_y1",
+        "std_m1",
+        "std_m3",
+        "std_m6",
+        "std_y1",
+        'beta_ret_1y'
+        'beta_std_1y',
+        "ret_next_month",
+    ]
+    Stock_propeties = Stock_propeties[feature_order]'''
 
 
-    return averages
+    return Stock_propeties
 
 
 
@@ -84,23 +151,11 @@ def get_dataset(period):
     train_end_date=period['train_end'].strftime("%Y-%m-%d")
     valid_start_date=period['valid_start'].strftime("%Y-%m-%d")
     valid_end_date=period['valid_end'].strftime("%Y-%m-%d")
-    #test_start_date=period['test_start'].strftime("%Y-%m-%d")
-    #test_end_date=period['test_end'].strftime("%Y-%m-%d")
-    #Z2 = pd.read_csv('../data/processed/Z.csv', index_col='Date', parse_dates=True)
-    #Z = Z.loc[train_start_date,test_end_date]
     X = generate_features(train_start_date, valid_end_date)
     Z = X.drop(columns=["price_m", "ret_next_month" ])
 
 
     y = X.loc[:,"ret_next_month"]
-    #display(Z)
-    #display(Z)
-    #display(Z.xs( ("ret_m1",'exists'),  level=1, axis=1).shift(-1).fillna(0))
-
-
-
-    Z = Z.iloc[:-1]
-    y = y.iloc[:-1]
 
     Z_train = Z.loc[train_start_date:train_end_date]
     y_train = y.loc[train_start_date:train_end_date]
@@ -109,15 +164,11 @@ def get_dataset(period):
     Z_valid = Z.loc[valid_start_date:valid_end_date]
     y_valid = y.loc[valid_start_date:valid_end_date]
 
-    #Z_test = Z.loc[test_start_date:test_end_date]
-    #y_test = y.loc[test_start_date:test_end_date]
     return{
         "Z_train": Z_train,
         "y_train": y_train,
         "Z_valid": Z_valid,
         "y_valid": y_valid,
-        #"Z_test": Z_test,
-        #"y_test": y_test,
     }
 
 

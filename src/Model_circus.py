@@ -32,7 +32,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 
 
+import statsmodels.api as sm
+
+
+
+
+
+
+
 def build_models():
+    OLSModel = sm.OLS
     RidgeModel = Ridge(alpha=10.0)
 
     ElasticNetModel = MultiTaskElasticNet(alpha=0.01, l1_ratio=0.2, max_iter=5000)
@@ -53,7 +62,7 @@ def build_models():
     XGBmodel1=XGB(
     n_estimators=100,
     learning_rate=0.03,
-    max_depth=2,
+    max_depth=4,
     subsample=0.8,
     colsample_bytree=0.8,
     reg_lambda=10,
@@ -62,9 +71,9 @@ def build_models():
     )
 
     XGBmodel2=XGB(
-    n_estimators=300,
+    n_estimators=500,
     learning_rate=0.01,
-    max_depth=2,
+    max_depth=5,
     subsample=0.8,
     colsample_bytree=0.8,
     reg_lambda=10,
@@ -106,9 +115,10 @@ def build_models():
 
 
     Models= {
+        #'OLS model': OLSModel,
         'Ridge model': RidgeModel,
         #'Elastic net model': ElasticNetModel,
-        #'Extra tree model': ExtraTreesModel,
+        'Extra tree model': ExtraTreesModel,
         'DTR model': DTRmodel,
         'RF model': RFmodel,
         'XGBmodel1': XGBmodel1,

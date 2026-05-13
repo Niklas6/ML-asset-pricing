@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../")
 
-from src.data_loader import download_price_data, save_raw_data, load_raw_data, save_processed_data
+from src.data_loader import download_price_data, save_raw_data, load_raw_data, save_processed_data,download_riskfree_rate
 from src.features import generate_features
 
 
@@ -10,6 +10,8 @@ from src.features import generate_features
 
 
 def main() -> None:
+
+
     tickers = [
         # Long-history core
         "KO", "PG", "XOM", "CVX", "IBM",
@@ -24,20 +26,60 @@ def main() -> None:
         "JPM", "BAC", "WFC", "UNH", "MSFT",
         "AAPL", "INTC", "ORCL", "CSCO", "ADBE",
 
-        # Modern growth/tech
-        "AMZN", "GOOGL", "NVDA", "META", "AVGO"
+        # Modern growth / tech
+        "AMZN", "GOOGL", "NVDA", "META", "AVGO",
+
+        # Added financials
+        "GS", "MS", "C", "USB", "BK", "AXP",
+
+        # Added consumer / retail
+        "NKE", "SBUX", "TGT", "CVS", "KR",
+
+        # Added industrials / transport / defense
+        "HON", "UPS", "FDX", "LMT", "RTX", "GE",
+
+        # Added semiconductors / tech hardware
+        "TXN", "QCOM", "AMD", "MU", "AMAT", "LRCX",
+
+        # Added communication / media
+        "CMCSA", "NFLX",
+
+        # Added utilities / real estate
+        "NEE", "EXC", "D", "O", "SPG",
+
+        # Added energy
+        "COP", "SLB", "EOG", "OXY",
+
+        # Added healthcare / biotech / medtech
+        "AMGN", "GILD", "MDT", "ISRG", "SYK", "TMO",
+
+        # Added asset managers / insurance
+        "BLK", "SCHW", "CB",
+
+        # Added materials / commodities / staples
+        "APD", "NEM", "FCX", "ADM", "EL", "TROW"
     ]
+
+    tickers_benchmark= ['^GSPC']
+    start_date="1960-01-31"
+    end_date= "2025-12-31"
+
 
     prices, volumes = download_price_data(
         tickers=tickers,
-        start_date="1960-01-31",
-        end_date="2025-12-31"
+        start_date=start_date,
+        end_date=end_date
     )
-    save_raw_data(prices, volumes, output_dir="../data/raw")
+    prices_bench, volumes_bench = download_price_data(
+        tickers=tickers_benchmark,
+        start_date=start_date,
+        end_date=end_date
+    )
+    risk_free_rate = download_riskfree_rate(start_date, end_date)
+    save_raw_data(prices, volumes,prices_bench, volumes_bench,risk_free_rate, output_dir="../data/raw")
 
-    Z = generate_features(train_start_date="1965-01-31", test_end_date="2025-12-31")
 
-    save_processed_data(Z, output_dir="../data/processed")
+
 
     #Z.to_csv("../data/processed/Z.csv", parse_dates=True)
 

@@ -19,17 +19,28 @@ def download_price_data(tickers, start_date, end_date):
     prices = pd.DataFrame()
     volumes = pd.DataFrame()
 
+
+
     for ticker in tickers:
-        try:
-            prices[ticker] = data[ticker]["Close"]
-            volumes[ticker] = data[ticker]["Volume"]
-        except Exception:
-            print(f"Skipping {ticker}: data not available")
+        prices[ticker] = data[ticker]["Close"]
+        volumes[ticker] = data[ticker]["Volume"]
 
     return prices, volumes
 
+def download_riskfree_rate(start_date, end_date):
+    rf = yf.Ticker("^IRX").history(
+        start=start_date,
+        end=end_date
+    )
 
-def save_raw_data(prices, volumes, output_dir="data/raw"):
+    rf = rf[["Close"]].rename(columns={"Close": "rf_monthly"})
+    rf_monthly = (1 + rf.resample("ME").last() / 100) ** (1 / 12)-1
+    rf_monthly.index = rf_monthly.index.date
+    rf_monthly.index.name = "Date"
+    return rf_monthly
+
+
+def save_raw_data(prices, volumes,prices_bench, volumes_bench,risk_free_rate, output_dir="data/raw"):
     """
     Save raw prices and volumes.
     """
@@ -38,6 +49,10 @@ def save_raw_data(prices, volumes, output_dir="data/raw"):
 
     prices.to_csv(output_path / "prices.csv")
     volumes.to_csv(output_path / "volumes.csv")
+
+    prices_bench.to_csv(output_path / "prices_bench.csv")
+    volumes_bench.to_csv(output_path / "volumes_bench.csv")
+    risk_free_rate.to_csv(output_path / "risk_free_rate.csv")
 
 
 
@@ -66,14 +81,14 @@ def load_raw_data(data_dir="data/raw"):
 
 
 
-def save_processed_data(Z,output_dir="data/processed"):
+def save_processed_data(X,output_dir="data/processed"):
     """
     Save processed prices and volumes.
     """
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
-    Z.to_csv(output_path / "Z.csv")
+    X.to_csv(output_path / "X.csv")
 
 
 def read_processed_data(data_dir="data/processed"):

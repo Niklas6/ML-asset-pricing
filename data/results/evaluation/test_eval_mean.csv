@@ -1,2 +1,4 @@
-,DTR model,NN1,RF model,Ridge model,XGBmodel1,XGBmodel2
-average,-0.04150999999999998,-0.03673,0.02533000000000001,0.06306999999999999,0.061399999999999996,0.06161000000000001
+,DTR model,Extra tree model,NN1,RF model,Ridge model,XGBmodel1,XGBmodel2
+mean,-0.191,-0.023,-0.091,-0.112,0.004,-0.033,-0.064
+std,,,,,,,
+min,-0.191,-0.023,-0.091,-0.112,0.004,-0.033,-0.064
