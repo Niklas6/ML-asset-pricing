@@ -90,7 +90,7 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
 if __name__ == "__main__":
     Models = src.Model_circus.build_models()
-    eval_summary_valid, eval_mean_valid=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 5,print_years=True)
+    eval_summary_valid, eval_mean_valid=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Valid run finished')
 
     dir_eval = "../data/results/evaluation"
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     eval_summary_valid.to_csv(path_eval / 'valid_eval_summary.csv')
     eval_mean_valid.to_csv(path_eval / 'valid_eval_mean.csv')
 
-    eval_summary_test, eval_mean_test=run_model(Models,"1980-01-31","2020-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 1,print_years=True)
+    eval_summary_test, eval_mean_test=run_model(Models,"1980-01-31","2020-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 20,print_years=True)
     print('test run finished')
 
 

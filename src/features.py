@@ -68,7 +68,7 @@ def generate_features(train_start_date,test_end_date):
     beta_ret_1y.columns= beta_1y.columns
 
 
-    beta_std_1y=pd.DataFrame([beta_1y.loc[:,col]*ret_1m_bench for col in beta_1y.columns]).T
+    beta_std_1y=pd.DataFrame([beta_1y.loc[:,col]*std_1m_bench for col in beta_1y.columns]).T
     beta_std_1y.columns= beta_1y.columns
 
     adj_ret_1m = pd.DataFrame(
