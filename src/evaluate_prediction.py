@@ -21,11 +21,11 @@ def prediction_df(y_pred, y):
 
 
 
-def evaluate_prediction(y_pred, y,s: str='data'):
+def evaluate_prediction(y_pred, y,yrfr,s: str='data'):
     mqe_pred=np.sqrt(mean_squared_error(y_pred,y))
     #zero_rmse = (y**2).sum().sum() #np.sqrt((y ** 2).mean().mean())
 
-    return(mqe_pred,1-((y_pred-y)**2).sum().sum()/(y**2).sum().sum())
+    return(mqe_pred,1-((y_pred-y)**2).sum().sum()/((y-yrfr)**2).sum().sum())
     #print('Prediction on '+s+' has the mean sqare error',mqe_pred, ' compared to guess model ',zero_rmse)
     #print('In the R^2 metric: ', 1-mqe_pred/zero_rmse)
 

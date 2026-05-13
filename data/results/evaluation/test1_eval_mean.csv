@@ -1,0 +1,4 @@
+,Extra tree model,Ridge model,XGBmodel1,XGBmodel2,last_year_average,risk_free
+mean,-0.009,0.002,-0.004,-0.004,-0.147,0.0
+std,0.086,0.061,0.072,0.072,0.152,0.0
+min,-0.177,-0.113,-0.124,-0.121,-0.466,0.0

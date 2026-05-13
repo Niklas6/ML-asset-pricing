@@ -61,8 +61,8 @@ def build_models():
 
     XGBmodel1=XGB(
     n_estimators=100,
-    learning_rate=0.03,
-    max_depth=4,
+    learning_rate=0.02,
+    max_depth=2,
     subsample=0.8,
     colsample_bytree=0.8,
     reg_lambda=10,
@@ -71,9 +71,9 @@ def build_models():
     )
 
     XGBmodel2=XGB(
-    n_estimators=500,
+    n_estimators=200,
     learning_rate=0.01,
-    max_depth=5,
+    max_depth=2,
     subsample=0.8,
     colsample_bytree=0.8,
     reg_lambda=10,
@@ -119,11 +119,11 @@ def build_models():
         'Ridge model': RidgeModel,
         #'Elastic net model': ElasticNetModel,
         'Extra tree model': ExtraTreesModel,
-        'DTR model': DTRmodel,
-        'RF model': RFmodel,
+        #'DTR model': DTRmodel,
+        #'RF model': RFmodel,
         'XGBmodel1': XGBmodel1,
         'XGBmodel2': XGBmodel2,
-        'NN1': NN1,
+        #'NN1': NN1,
         #'NN2': NN2,
         #'NN3': NN3,
         #'NN4': NN4,

@@ -34,29 +34,43 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         y_valid=Dataset["y_valid"]
 
         risk_free_rate = pd.read_csv('../data/raw/risk_free_rate.csv', index_col='Date', parse_dates=True)
-        #y_train_rf=y_train.copy()
 
-        #for ind in y_train.index:
-        #    y_train_rf[ind]=y_train[ind]+risk_free_rate.loc[ind[0]]
+        year=Periods.iloc[i]['valid_start'].year
+
 
         '''y_valid_rf = y_valid.copy()
 
         for ind in y_valid.index:
             y_valid_rf[ind] = y_valid[ind] + risk_free_rate.loc[ind[0]]'''
 
+        y_valid_riskfree = y_valid.copy()
+        for ind in y_valid_riskfree.index:
+            y_valid_riskfree[ind] = risk_free_rate.shift(-1).loc[ind[0]]
+        # y_valid_riskfree = #risk_free_rate.loc[y_valid.index]
+        mqe_value, r2_value = evaluate_prediction(y_valid_riskfree, y_valid,y_valid_riskfree)
+        rows.append({
+            "year": year,
+            "model": 'risk_free',
+            "R2_valid": r2_value,
+            "mqe_valid": mqe_value,
+        })
+        # Guess the average last year
+        y_valid_avg= Z_valid.loc[:,"ret_y1"]/12
+        mqe_value, r2_value = evaluate_prediction(y_valid_avg, y_valid,y_valid_riskfree)
+        rows.append({
+            "year": year,
+            "model": 'last_year_average',
+            "R2_valid": r2_value,
+            "mqe_valid": mqe_value,
+        })
 
 
-
-
-        year=Periods.iloc[i]['valid_start'].year
 
 
         for name, model in Models.items():
             model.fit(Z_train,y_train)
-            #y_train_predict = model.predict(Z_train)
-            #evaluate_prediction(y_train_predict, y_train)
             y_valid_predict = model.predict(Z_valid)
-            mqe_value,r2_value=evaluate_prediction(y_valid_predict,y_valid)
+            mqe_value,r2_value=evaluate_prediction(y_valid_predict,y_valid,y_valid_riskfree)
             rows.append({
                         "year": year,
                         "model": name,
@@ -100,13 +114,20 @@ if __name__ == "__main__":
     eval_summary_valid.to_csv(path_eval / 'valid_eval_summary.csv')
     eval_mean_valid.to_csv(path_eval / 'valid_eval_mean.csv')
 
-    eval_summary_test, eval_mean_test=run_model(Models,"1980-01-31","2020-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 20,print_years=True)
-    print('test run finished')
+    eval_summary_test1, eval_mean_test1=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    print('test 1 run finished')
+
+    eval_summary_test1.to_csv(path_eval/'test1_eval_summary.csv')
+    eval_mean_test1.to_csv(path_eval/'test1_eval_mean.csv')
+
+    eval_summary_test2, eval_mean_test2=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    print('test 2 run finished')
+
+    eval_summary_test2.to_csv(path_eval/'test2_eval_summary.csv')
+    eval_mean_test2.to_csv(path_eval/'test2_eval_mean.csv')
 
 
 
-    eval_summary_test.to_csv(path_eval/'test_eval_summary.csv')
-    eval_mean_test.to_csv(path_eval/'test_eval_mean.csv')
 
 
 
