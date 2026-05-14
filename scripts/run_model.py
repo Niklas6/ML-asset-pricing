@@ -34,6 +34,7 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         Z_valid=Dataset["Z_valid"]
         y_valid=Dataset["y_valid"]
 
+
         risk_free_rate = pd.read_csv(PROJECT_ROOT /'data'/'raw'/'risk_free_rate.csv', index_col='Date', parse_dates=True)
 
         year=Periods.iloc[i]['valid_start'].year

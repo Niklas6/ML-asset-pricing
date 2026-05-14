@@ -11,16 +11,18 @@ import pandas as pd
 import numpy as np
 
 
-def generate_features(train_start_date,test_end_date):
+def generate_features(load_start_time,load_end_time):
     df = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'prices.csv', index_col='Date', parse_dates=True)
     #ts = pd.Timestamp(train_start_date)
     #data_load_time = ts - pd.DateOffset(years=5)
     #data_load_time=data_load_time.strftime("%Y-%m-%d")
-    df = df.loc[train_start_date:test_end_date]
+    #load_start_time="1965-01-31"
+    #load_end_time ="2025-12-31"
+    df = df.loc[load_start_time:load_end_time]
 
 
     df_bench = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'prices_bench.csv', index_col='Date', parse_dates=True)
-    df_bench = df_bench.loc[train_start_date:test_end_date]
+    df_bench = df_bench.loc[load_start_time:load_end_time]
 
     risk_free_rate = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'risk_free_rate.csv', index_col='Date', parse_dates=True)
 
@@ -144,7 +146,6 @@ def generate_features(train_start_date,test_end_date):
     ]
     Stock_propeties = Stock_propeties[feature_order]'''
 
-
     return Stock_propeties
 
 
@@ -155,7 +156,10 @@ def get_dataset(period):
     train_end_date=period['train_end'].strftime("%Y-%m-%d")
     valid_start_date=period['valid_start'].strftime("%Y-%m-%d")
     valid_end_date=period['valid_end'].strftime("%Y-%m-%d")
-    X = generate_features(train_start_date, valid_end_date)
+
+    X = pd.read_csv(PROJECT_ROOT/'data'/'processed'/'X.csv').set_index(['date','stock'])
+    #print( generate_features('1965-01-31',"2025-12-31"))
+    #print(pd.read_csv(PROJECT_ROOT/'data'/'processed'/'X.csv').set_index(['date','stock']))
     Z = X.drop(columns=["price_m", "ret_next_month" ])
 
 
