@@ -1,6 +1,10 @@
 # Empirical Equity Return Prediction
 
-This project investigates whether simple firm-level price features and market-state variables can predict next-month equity returns. It is intended as a portfolio-style quant research project using machine learning: the focus is out-of-sample validation and comparison between linear, tree-based, and boosting models.
+This project investigates whether simple firm-level price features and market-state variables contain predictive information for next-month equity returns.
+
+It is designed as a portfolio-style quantitative research project using machine learning. The focus is on building a reproducible research pipeline, applying walk-forward out-of-sample validation, and comparing linear, tree-based, and boosting models across different market regimes.
+
+The current `main` branch contains a complete runnable version of the project. The project is still being developed and improved.
 
 ## Project Overview
 
@@ -27,17 +31,19 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 | 2010-2019 | 0.043 | 0.039 | 0.038 | 0.031 | 0.041 |
 
 ## How to run 
-pip install -r requirements.txt
-python scripts/S1_download_data.py
-python scripts/S2_process_data.py
-python scripts/run_model.py
+The project can be run by the following terminal commands:
+- pip install -r requirements.txt
+- python scripts/S1_download_data.py
+- python scripts/S2_process_data.py
+- python scripts/run_model.py
 
 
 ## Limitations
 
-The current universe is manually selected and therefore subject to survivorship bias. Yahoo Finance data can also include revisions and ticker-history complications.
+- The current universe is manually selected and therefore subject to survivorship bias. Yahoo Finance data can also include revisions and ticker-history complications.
+- The current evaluation focuses on predictive error rather than full tradability. The results should not be interpreted as evidence of a deployable trading strategy until portfolio construction, transaction costs, turnover, and risk controls are added.
 
-The current evaluation focuses on predictive error rather than full tradability. The results should not be interpreted as evidence of a deployable trading strategy until portfolio construction, transaction costs, turnover, and risk controls are added.
+
 
 ## Repository Structure
 
