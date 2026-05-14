@@ -79,9 +79,6 @@ def main() -> None:
 
 
 
-    #Z.to_csv("../data/processed/Z.csv", parse_dates=True)
-
-
 
 
 if __name__ == "__main__":

@@ -6,6 +6,7 @@ It is designed as a portfolio-style quantitative research project using machine 
 
 The current `main` branch contains a complete runnable version of the project. The project is still being developed and improved.
 
+This project is inspired by Gu, Kelly, and Xiu’s Empirical Asset Pricing via Machine Learning, which studies how machine learning methods can be used to predict the cross-section of equity returns.
 ## Project Overview
 
 The pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
@@ -31,7 +32,7 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
 
 
-
+![Prediction Performance by Year](data/results/performance.png)
 
 ## How to run 
 The project can be run by the following terminal commands:
@@ -55,16 +56,14 @@ The project can be run by the following terminal commands:
 +-- README.md                         # Project overview, methodology, limitations, and headline results
 +-- .gitignore                        # Excludes environments, caches, notebooks, and generated data
 +-- data/
-|   +-- raw/                          # Local downloaded Yahoo Finance data, ignored by Git
-|   +-- processed/                    # Local generated feature panel, ignored by Git
+|   +-- raw/                          # Local downloaded Yahoo Finance data, ignored by Git to reduce filesize
+|   +-- processed/                    # Local generated feature panel, ignored by Git to reduce filesize
 |   +-- results/                      # Results
 +-- scripts/
 |   +-- S1_download_data.py            # Download raw equity, benchmark, volume, and risk-free-rate data
 |   +-- S2_process_data.py             # Build the processed monthly feature panel
-|   +-- run_model.py                   # Run rolling-window model evaluation and save CSV results
 |   +-- S3_model_validation.ipynb      # Local notebook for model/parameter validation
-|   +-- X1_data_exploration.ipynb      # Local exploratory data-analysis notebook
-|   +-- X2_postprocess.ipynb           # Local notebook for result post-processing/plots
+|   +-- run_model.py                   # Run rolling-window model evaluation and save CSV results
 +-- src/
     +-- data_loader.py                 # Data download and persistence helpers
     +-- features.py                    # Feature engineering and rolling train/test splits
@@ -105,3 +104,7 @@ The experiment is split into three regimes:
 This design is meant to test whether the feature set contains persistent predictive information across distinct market environments.
 
 ## Summary 
+
+
+## Reference
+Gu, Shihao, Bryan Kelly, and Dacheng Xiu. "Empirical asset pricing via machine learning." The Review of Financial Studies 33.5 (2020): 2223-2273.
