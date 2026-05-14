@@ -1,0 +1,46 @@
+# Python cache and build artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/
+
+# Local OS files
+.DS_Store
+Thumbs.db
+
+# Project data generated from scripts
+data/raw/
+data/processed/
+data/interim/
+
+# Large or experimental model artifacts
+models/
+artifacts/
+*.pkl
+*.pickle
+*.joblib
+
+# Logs and temporary files
+logs/
+*.log
+tmp/
+temp/
