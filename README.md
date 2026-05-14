@@ -100,3 +100,5 @@ The experiment is split into three regimes:
 - Test 2: 2010-2019, covering the post-crisis decade
 
 This design is meant to test whether the feature set contains persistent predictive information across distinct market environments.
+
+## Summary 
