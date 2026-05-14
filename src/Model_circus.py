@@ -36,28 +36,43 @@ import statsmodels.api as sm
 
 
 
+from lightgbm import LGBMRegressor as LGBM
+
 
 
 
 
 def build_models():
     OLSModel = sm.OLS
-    RidgeModel = Ridge(alpha=10.0)
+    RidgeModel = Ridge(
+                alpha=1,
+                fit_intercept=False,
+                solver="auto",
+                max_iter=10,
+                tol=1e-4,
+                random_state=42
+        )
 
     ElasticNetModel = MultiTaskElasticNet(alpha=0.01, l1_ratio=0.2, max_iter=5000)
 
     ExtraTreesModel = ExtraTreesRegressor(
         n_estimators=300,
-        max_depth=4,
-        min_samples_leaf=5,
+        max_depth=5,
+        min_samples_leaf=10,
         random_state=42,
         n_jobs=-1,
     )
 
 
     DTRmodel=DTR(max_leaf_nodes=20)
-    RFmodel=RF(n_estimators=100)
-
+    RFmodel=RF(
+        n_estimators=500,
+        max_depth=5,
+        min_samples_split=10,
+        min_samples_leaf=5,
+        random_state=42,
+        n_jobs=-1
+    )
 
     XGBmodel1=XGB(
     n_estimators=100,
@@ -70,7 +85,7 @@ def build_models():
     random_state=42
     )
 
-    XGBmodel2=XGB(
+    XGBmodel=XGB(
     n_estimators=200,
     learning_rate=0.01,
     max_depth=2,
@@ -79,6 +94,17 @@ def build_models():
     reg_lambda=10,
     reg_alpha=1,
     random_state=42
+    )
+    LGBMmodel = LGBM(
+        n_estimators=200 ,
+        learning_rate=0.02,
+        max_depth=2,
+        subsample=0.6,
+        colsample_bytree=0.8,
+        reg_lambda=10,
+        reg_alpha=1,
+        random_state=42,
+        verbose=-1
     )
 
     NN1 = make_pipeline(
@@ -115,18 +141,11 @@ def build_models():
 
 
     Models= {
-        #'OLS model': OLSModel,
         'Ridge model': RidgeModel,
-        #'Elastic net model': ElasticNetModel,
+        'RF model': RFmodel,
         'Extra tree model': ExtraTreesModel,
-        #'DTR model': DTRmodel,
-        #'RF model': RFmodel,
-        'XGBmodel1': XGBmodel1,
-        'XGBmodel2': XGBmodel2,
-        #'NN1': NN1,
-        #'NN2': NN2,
-        #'NN3': NN3,
-        #'NN4': NN4,
+        'XGB model': XGBmodel,
+        'LGBM model': LGBMmodel
 
 }
 

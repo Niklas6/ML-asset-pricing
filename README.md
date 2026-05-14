@@ -9,13 +9,34 @@ The pipeline uses historical equity prices from Yahoo Finance to build monthly c
 Current modelling approaches include:
 
 - Ridge regression
-- Decision trees
-- Random forests
-- Extra trees
-- XGBoost regressors
+- Random forest regressor
+- Extra tree regressor
+- XGBoost regressor
+- LightGBM regressor 
 - A small neural-network regressor
 
-The evaluation is currently based on walk-forward out-of-sample R-squared and RMSE-style error metrics. A portfolio backtest layer is planned so the predictions can also be evaluated using rank correlation, long-short returns, Sharpe ratio, drawdown, turnover, and transaction-cost sensitivity.
+The evaluation is currently based on ou-of-sample metrics comparing the result to the risk-free rate in the R^2 metrics. The model is trained on a rolling 20-year window, predicts the following year, and is refit annually. I split the evaluation period into three regimes:
+
+
+- 1990-1999: validation period used for model and parameter selection
+- 2000-2009: first test period, covering the dot-com crash and global financial crisis
+- 2010-2019: second test period, covering the post-crisis decade
+
+| Year | Extra tree model | Ridge model | XGBmodel1 | XGBmodel2 |
+|------| ---: | ---: | ---: | ---: |
+| 1990-1999 | 0.031 | 0.028 | 0.033 | 0.033 |
+| 2000-2009 | -0.009 | 0.002 | -0.004 | -0.004 |
+| 2010-2019 | 0.043 | 0.036 | 0.041 | 0.041 |
+
+
+
+
+## Limitations
+
+The current universe is manually selected and therefore subject to survivorship bias. Especially, since Yahoo Finance data can also include revisions and ticker-history complications. 
+
+The current evaluation focuses on predictive error rather than full tradability. The results should not be interpreted as evidence of a deployable trading strategy until portfolio construction, transaction costs, turnover, and risk controls are added.
+
 
 ## Repository Structure
 
@@ -56,46 +77,4 @@ The train/validation design is walk-forward:
 
 This avoids random train/test splits, which are usually inappropriate for time-series financial prediction.
 
-## Setup
 
-Create and activate a virtual environment, then install the main dependencies:
-
-```bash
-pip install pandas numpy scikit-learn xgboost yfinance statsmodels jupyter
-```
-
-The project was developed on Windows with Python 3.14, but the code should be portable to a recent Python 3 version once dependencies are installed.
-
-## Reproducing the Pipeline
-
-From the `scripts` directory:
-
-```bash
-python S1_download_data.py
-python S2_process_data.py
-python run_model.py
-```
-
-The current scripts use paths relative to the `scripts` directory. A future cleanup step should replace these with project-root-relative paths so commands can be run from the repository root.
-
-## Current Status
-
-The project is functional as a research prototype, but it is not yet a fully polished public research repo. The core idea and modelling loop are in place, but the following items should be addressed before treating the results as final:
-
-- Add a clean dependency file, such as `requirements.txt` or `pyproject.toml`.
-- Refactor relative paths so scripts run from the project root.
-- Clean unused imports, commented code, empty files, and archived experiments.
-- Add tests for feature alignment, beta calculation, train/validation splits, and evaluation metrics.
-- Re-run and commit a complete final validation/test result table.
-- Add portfolio-style metrics beyond predictive R-squared.
-- Document survivorship bias from the manually selected stock universe.
-
-## Limitations
-
-The current universe is manually selected and therefore subject to survivorship bias. Yahoo Finance data can also include revisions and ticker-history complications. The current evaluation focuses on predictive error rather than full tradability, so the results should not be interpreted as evidence of a deployable trading strategy until portfolio construction, transaction costs, turnover, and risk controls are added.
-
-## Intended CV Framing
-
-A concise CV description after cleanup could be:
-
-> Built a walk-forward equity return prediction pipeline using lagged returns, volatility, market beta, and benchmark features; compared Ridge, tree-based models, XGBoost, and neural networks using out-of-sample validation and planned portfolio-level performance metrics.
