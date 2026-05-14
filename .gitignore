@@ -21,6 +21,8 @@ env/
 
 # Jupyter
 .ipynb_checkpoints/
+notebooks/
+*.ipynb
 
 # Local OS files
 .DS_Store
@@ -43,4 +45,3 @@ logs/
 *.log
 tmp/
 temp/
-

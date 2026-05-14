@@ -97,9 +97,9 @@ def read_processed_data(data_dir="data/processed"):
     """
     data_path = Path(data_dir)
 
-    Z = pd.read_csv(
-        data_path / "Z.csv",
+    X = pd.read_csv(
+        data_path / "X.csv",
         index_col=0,
         parse_dates=True
     )
-    return Z
+    return X

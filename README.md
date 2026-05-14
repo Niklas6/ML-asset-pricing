@@ -13,7 +13,6 @@ Current modelling approaches include:
 - Extra tree regressor
 - XGBoost regressor
 - LightGBM regressor
-- A small neural-network regressor
 
 The evaluation is currently based on out-of-sample metrics comparing the result to the risk-free rate using an R-squared-style metric. The model is trained on a rolling 20-year window, predicts the following year, and is refit annually. I split the evaluation period into three regimes:
 
@@ -21,11 +20,11 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 - 2000-2009: first test period, covering the dot-com crash and global financial crisis
 - 2010-2019: second test period, covering the post-crisis decade
 
-| Year | Extra tree model | Ridge model | XGBmodel1 | XGBmodel2 |
-|------| ---: | ---: | ---: | ---: |
-| 1990-1999 | 0.031 | 0.028 | 0.033 | 0.033 |
-| 2000-2009 | -0.009 | 0.002 | -0.004 | -0.004 |
-| 2010-2019 | 0.043 | 0.036 | 0.041 | 0.041 |
+| Period | Extra tree model | LGBM model | RF model | Ridge model | XGB model |
+|--------| ---: | ---: | ---: | ---: | ---: |
+| 1990-1999 | 0.031 | 0.031 | 0.023 | 0.029 | 0.033 |
+| 2000-2009 | -0.012 | -0.009 | -0.021 | -0.003 | -0.004 |
+| 2010-2019 | 0.043 | 0.039 | 0.038 | 0.031 | 0.041 |
 
 ## Limitations
 
@@ -37,37 +36,58 @@ The current evaluation focuses on predictive error rather than full tradability.
 
 ```text
 .
++-- README.md                         # Project overview, methodology, and headline results
++-- .gitignore                        # Excludes local data, notebooks, caches, and environment files
 +-- data/
-|   +-- raw/                    # Downloaded market data, ignored by Git
-|   +-- processed/              # Generated feature matrices, ignored by Git
-|   +-- results/evaluation/     # Saved validation/test summaries
-+-- notebooks/                  # Exploratory notebooks
+|   +-- results/
+|       +-- evaluation/
+|           +-- valid_eval_summary.csv # Year-by-year validation R2, 1990-1999
+|           +-- valid_eval_mean.csv    # Validation summary statistics
+|           +-- test1_eval_summary.csv # Year-by-year test R2, 2000-2009
+|           +-- test1_eval_mean.csv    # First test-period summary statistics
+|           +-- test2_eval_summary.csv # Year-by-year test R2, 2010-2019
+|           +-- test2_eval_mean.csv    # Second test-period summary statistics
 +-- scripts/
-|   +-- S1_download_data.py     # Download raw price, benchmark, and risk-free data
-|   +-- S2_process_data.py      # Build processed feature dataset
-|   +-- run_model.py            # Run walk-forward model validation
+|   +-- S1_download_data.py            # Download equity, S&P 500, volume, and risk-free-rate data
+|   +-- S2_process_data.py             # Generate the monthly stock-feature panel
+|   +-- run_model.py                   # Run rolling-window validation and test evaluations
 +-- src/
-    +-- data_loader.py          # Data download and persistence helpers
-    +-- features.py             # Feature engineering and train/validation splits
-    +-- Model_circus.py         # Model definitions
-    +-- evaluate_prediction.py  # Prediction evaluation helpers
+    +-- data_loader.py                 # Data download and persistence helpers
+    +-- features.py                    # Feature engineering and rolling train/test splits
+    +-- Model_circus.py                # Candidate model definitions
+    +-- evaluate_prediction.py         # Error and R-squared-style evaluation metrics
 ```
 
 ## Methodology
 
-The feature construction currently includes:
+The project uses a walk-forward cross-sectional prediction setup rather than a random train/test split.
 
-- One-month, three-month, six-month, and twelve-month stock returns
-- Monthly and rolling return volatility
-- Rolling one-year market beta against the S&P 500
-- Beta-scaled market return and market volatility features
-- Next-month stock return as the prediction target
+1. Download adjusted close prices and volumes for the stock universe from Yahoo Finance.
+2. Download the S&P 500 as the benchmark and the 13-week Treasury bill yield as the risk-free-rate proxy.
+3. Convert daily prices to month-end observations.
+4. Build one stock-month row per asset with only information available at that month-end.
+5. Train models on a rolling 20-year history.
+6. Predict the following out-of-sample year.
+7. Refit annually and aggregate results by regime.
 
-The train/validation design is walk-forward:
+The current stock-level features are:
 
-1. Train on a fixed historical window.
-2. Validate on the following out-of-sample year.
-3. Roll the window forward and repeat.
-4. Aggregate performance across validation years.
+- One-month, three-month, six-month, and twelve-month trailing stock returns
+- One-month, three-month, six-month, and twelve-month trailing daily-return volatility
+- Rolling one-year beta estimated against S&P 500 daily returns
+- Beta-scaled benchmark return
+- Beta-scaled benchmark volatility
 
-This avoids random train/test splits, which are usually inappropriate for time-series financial prediction.
+The prediction target is the next-month stock return. The evaluation compares model forecast errors against a risk-free-rate baseline using an out-of-sample R-squared-style metric:
+
+```text
+R2_oos = 1 - sum((prediction - realized_return)^2) / sum((realized_return - risk_free_rate)^2)
+```
+
+The experiment is split into three regimes:
+
+- Validation: 1990-1999, used for model and parameter selection
+- Test 1: 2000-2009, covering the dot-com crash and global financial crisis
+- Test 2: 2010-2019, covering the post-crisis decade
+
+This design is meant to test whether the feature set contains persistent predictive information across distinct market environments.

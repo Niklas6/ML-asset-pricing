@@ -31,7 +31,7 @@ def evaluate_prediction(y_pred, y,yrfr,s: str='data'):
 
 
 
-def evaluate_Models(Z_train,y_train,Z_valid,y_valid,Model):
+'''def evaluate_Models(Z_train,y_train,Z_valid,y_valid,Model):
     rows= []
 
     rows.append({    'name': 'zero_guess',
@@ -56,4 +56,4 @@ def evaluate_Models(Z_train,y_train,Z_valid,y_valid,Model):
             'mqe_valid': mqe_valid,
             'R2_valid': R2_valid
                 })
-    return pd.DataFrame(rows).set_index("name")
+    return pd.DataFrame(rows).set_index("name")'''
