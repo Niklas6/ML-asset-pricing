@@ -36,21 +36,19 @@ The current evaluation focuses on predictive error rather than full tradability.
 
 ```text
 .
-+-- README.md                         # Project overview, methodology, and headline results
-+-- .gitignore                        # Excludes local data, notebooks, caches, and environment files
++-- README.md                         # Project overview, methodology, limitations, and headline results
++-- .gitignore                        # Excludes environments, caches, notebooks, and generated data
 +-- data/
-|   +-- results/
-|       +-- evaluation/
-|           +-- valid_eval_summary.csv # Year-by-year validation R2, 1990-1999
-|           +-- valid_eval_mean.csv    # Validation summary statistics
-|           +-- test1_eval_summary.csv # Year-by-year test R2, 2000-2009
-|           +-- test1_eval_mean.csv    # First test-period summary statistics
-|           +-- test2_eval_summary.csv # Year-by-year test R2, 2010-2019
-|           +-- test2_eval_mean.csv    # Second test-period summary statistics
+|   +-- raw/                          # Local downloaded Yahoo Finance data, ignored by Git
+|   +-- processed/                    # Local generated feature panel, ignored by Git
+|   +-- results/                      # Results
 +-- scripts/
-|   +-- S1_download_data.py            # Download equity, S&P 500, volume, and risk-free-rate data
-|   +-- S2_process_data.py             # Generate the monthly stock-feature panel
-|   +-- run_model.py                   # Run rolling-window validation and test evaluations
+|   +-- S1_download_data.py            # Download raw equity, benchmark, volume, and risk-free-rate data
+|   +-- S2_process_data.py             # Build the processed monthly feature panel
+|   +-- run_model.py                   # Run rolling-window model evaluation and save CSV results
+|   +-- S3_model_validation.ipynb      # Local notebook for model/parameter validation, ignored by Git
+|   +-- X1_data_exploration.ipynb      # Local exploratory data-analysis notebook, ignored by Git
+|   +-- X2_postprocess.ipynb           # Local notebook for result post-processing/plots, ignored by Git
 +-- src/
     +-- data_loader.py                 # Data download and persistence helpers
     +-- features.py                    # Feature engineering and rolling train/test splits
