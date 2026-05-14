@@ -3,10 +3,8 @@ import sys
 import pandas as pd
 
 sys.path.append("../")
-import src.features
 from pathlib import Path
 
-from src.features import generate_features as gen
 from src.features import get_dataset, get_periods
 
 from src.evaluate_prediction import  evaluate_prediction
@@ -87,7 +85,7 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
 
 if __name__ == "__main__":
-    Models = src.Model.build_models()
+    Models = src.Models.build_models()
     eval_summary_valid, eval_mean_valid=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Valid run finished')
 

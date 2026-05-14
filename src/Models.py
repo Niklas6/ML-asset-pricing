@@ -1,25 +1,9 @@
 
-import pandas as pd
-import numpy as np
-import importlib
-import time
-
-
-from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
-
 from xgboost import XGBRegressor as XGB
 from sklearn.ensemble import RandomForestRegressor as RF
 
 from sklearn.tree import DecisionTreeRegressor as DTR
 
-from sklearn.neural_network import MLPRegressor
-
-from sklearn.linear_model import LinearRegression as LR
-
-from sklearn.metrics import mean_squared_error
-
-from sklearn.pipeline import Pipeline
 from sklearn.linear_model import Ridge
 
 
@@ -32,7 +16,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neural_network import MLPRegressor
 
 
-import statsmodels.api as sm
+
 
 
 
@@ -43,7 +27,6 @@ from lightgbm import LGBMRegressor as LGBM
 
 
 def build_models():
-    OLSModel = sm.OLS
     RidgeModel = Ridge(
                 alpha=1,
                 fit_intercept=False,
@@ -53,7 +36,7 @@ def build_models():
                 random_state=42
         )
 
-    ElasticNetModel = MultiTaskElasticNet(alpha=0.01, l1_ratio=0.2, max_iter=5000)
+
 
     ExtraTreesModel = ExtraTreesRegressor(
         n_estimators=300,
@@ -64,7 +47,6 @@ def build_models():
     )
 
 
-    DTRmodel=DTR(max_leaf_nodes=20)
     RFmodel=RF(
         n_estimators=500,
         max_depth=5,
@@ -74,16 +56,7 @@ def build_models():
         n_jobs=-1
     )
 
-    XGBmodel1=XGB(
-    n_estimators=100,
-    learning_rate=0.02,
-    max_depth=2,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    reg_lambda=10,
-    reg_alpha=1,
-    random_state=42
-    )
+
 
     XGBmodel=XGB(
     n_estimators=200,
@@ -106,6 +79,10 @@ def build_models():
         random_state=42,
         verbose=-1
     )
+
+    # Models which could be added later
+    ElasticNetModel = MultiTaskElasticNet(alpha=0.01, l1_ratio=0.2, max_iter=5000)
+    DTRmodel=DTR(max_leaf_nodes=20)
 
     NN1 = make_pipeline(
         StandardScaler(),
@@ -131,13 +108,6 @@ def build_models():
         max_iter=200,
         random_state=42
     )
-    NN4 = MLPRegressor(
-        hidden_layer_sizes=(64, 32,16),
-        activation="relu",
-        max_iter=200,
-        random_state=42
-    )
-
 
 
     Models= {

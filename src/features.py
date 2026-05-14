@@ -1,10 +1,6 @@
 
-
 import pandas as pd
-
 import numpy as np
-from IPython.core.display_functions import display
-
 
 
 def generate_features(train_start_date,test_end_date):
