@@ -1,4 +1,0 @@
-,Extra tree model,LGBM model,RF model,Ridge model,XGB model
-mean,-0.012,-0.009,-0.021,-0.003,-0.004
-std,0.089,0.078,0.099,0.081,0.072
-min,-0.179,-0.125,-0.181,-0.162,-0.121
