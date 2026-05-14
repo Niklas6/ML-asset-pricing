@@ -46,9 +46,9 @@ The current evaluation focuses on predictive error rather than full tradability.
 |   +-- S1_download_data.py            # Download raw equity, benchmark, volume, and risk-free-rate data
 |   +-- S2_process_data.py             # Build the processed monthly feature panel
 |   +-- run_model.py                   # Run rolling-window model evaluation and save CSV results
-|   +-- S3_model_validation.ipynb      # Local notebook for model/parameter validation, ignored by Git
-|   +-- X1_data_exploration.ipynb      # Local exploratory data-analysis notebook, ignored by Git
-|   +-- X2_postprocess.ipynb           # Local notebook for result post-processing/plots, ignored by Git
+|   +-- S3_model_validation.ipynb      # Local notebook for model/parameter validation
+|   +-- X1_data_exploration.ipynb      # Local exploratory data-analysis notebook
+|   +-- X2_postprocess.ipynb           # Local notebook for result post-processing/plots
 +-- src/
     +-- data_loader.py                 # Data download and persistence helpers
     +-- features.py                    # Feature engineering and rolling train/test splits
