@@ -8,7 +8,7 @@ The pipeline uses historical equity prices from Yahoo Finance to build monthly c
 
 Current modelling approaches include:
 
-- Ridge regression
+- Ridge regressior
 - Random forest regressor
 - Extra tree regressor
 - XGBoost regressor
