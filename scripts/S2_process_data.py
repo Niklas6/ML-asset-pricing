@@ -14,8 +14,7 @@ from src.features import generate_features
 
 def main() -> None:
 
-    X = generate_features(train_start_date="1965-01-31", test_end_date="2025-12-31")
-
+    X = generate_features(load_start_time="1965-01-31", load_end_time="2025-12-31")
     save_processed_data(X, output_dir=PROJECT_ROOT/'data'/'processed')
 
 

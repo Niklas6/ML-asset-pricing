@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 
 
-def generate_features(load_start_time,load_end_time):
+def generate_features(load_start_time="1965-01-31", load_end_time="2025-12-31"):
     df = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'prices.csv', index_col='Date', parse_dates=True)
     #ts = pd.Timestamp(train_start_date)
     #data_load_time = ts - pd.DateOffset(years=5)
