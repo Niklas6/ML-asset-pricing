@@ -1,6 +1,6 @@
 # Empirical Equity Return Prediction
 
-This project investigates whether simple firm-level price features and market-state variables can predict next-month equity returns. It is intended as a portfolio-style quant research project using machine learing: the focus is out-of-sample validation, and comparison between linear, tree-based, boosting models.
+This project investigates whether simple firm-level price features and market-state variables can predict next-month equity returns. It is intended as a portfolio-style quant research project using machine learning: the focus is out-of-sample validation and comparison between linear, tree-based, and boosting models.
 
 ## Project Overview
 
@@ -8,7 +8,7 @@ The pipeline uses historical equity prices from Yahoo Finance to build monthly c
 
 Current modelling approaches include:
 
-- Ridge regressior
+- Ridge regressor
 - Random forest regressor
 - Extra tree regressor
 - XGBoost regressor
@@ -52,7 +52,7 @@ The current evaluation focuses on predictive error rather than full tradability.
 +-- src/
     +-- data_loader.py                 # Data download and persistence helpers
     +-- features.py                    # Feature engineering and rolling train/test splits
-    +-- Model_circus.py                # Candidate model definitions
+    +-- Models.py                      # Candidate model definitions
     +-- evaluate_prediction.py         # Error and R-squared-style evaluation metrics
 ```
 

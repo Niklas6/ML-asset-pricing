@@ -89,24 +89,32 @@ if __name__ == "__main__":
     eval_summary_valid, eval_mean_valid=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Valid run finished')
 
-    dir_eval = "../data/results/evaluation"
+
+    eval_summary_test1, eval_mean_test1=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    print('First test run finished')
+
+    eval_summary_test2, eval_mean_test2=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    print('Second test run finished')
+
+    dir_eval = "../data/results"
     path_eval = Path(dir_eval)
     path_eval.mkdir(parents=True, exist_ok=True)
 
-    eval_summary_valid.to_csv(path_eval / 'valid_eval_summary.csv')
-    eval_mean_valid.to_csv(path_eval / 'valid_eval_mean.csv')
+    evaluation = pd.DataFrame({
+        '1990-1999': eval_mean_valid.iloc[0],
+        '2000-2009': eval_mean_test1.iloc[0],
+        '2010-2019': eval_mean_test2.iloc[0],
+    }).T
 
-    eval_summary_test1, eval_mean_test1=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
-    print('test 1 run finished')
+    evaluation.to_csv(path_eval / 'evaluation_decade.csv')
 
-    eval_summary_test1.to_csv(path_eval/'test1_eval_summary.csv')
-    eval_mean_test1.to_csv(path_eval/'test1_eval_mean.csv')
 
-    eval_summary_test2, eval_mean_test2=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
-    print('test 2 run finished')
+    eval_summary_valid.to_csv(path_eval / 'valid_yearly.csv')
+    eval_summary_test1.to_csv(path_eval / 'test1_yearly.csv')
+    eval_summary_test2.to_csv(path_eval / 'test2_yearly.csv')
 
-    eval_summary_test2.to_csv(path_eval/'test2_eval_summary.csv')
-    eval_mean_test2.to_csv(path_eval/'test2_eval_mean.csv')
+
+
 
 
 
