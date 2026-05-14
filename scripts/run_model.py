@@ -1,8 +1,11 @@
 import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-sys.path.append("../")
 from pathlib import Path
 
 from src.features import get_dataset, get_periods
@@ -31,7 +34,7 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         Z_valid=Dataset["Z_valid"]
         y_valid=Dataset["y_valid"]
 
-        risk_free_rate = pd.read_csv('../data/raw/risk_free_rate.csv', index_col='Date', parse_dates=True)
+        risk_free_rate = pd.read_csv(PROJECT_ROOT /'data'/'raw'/'risk_free_rate.csv', index_col='Date', parse_dates=True)
 
         year=Periods.iloc[i]['valid_start'].year
 
@@ -96,7 +99,7 @@ if __name__ == "__main__":
     eval_summary_test2, eval_mean_test2=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Second test run finished')
 
-    dir_eval = "../data/results"
+    dir_eval = PROJECT_ROOT /'data'/'results'
     path_eval = Path(dir_eval)
     path_eval.mkdir(parents=True, exist_ok=True)
 

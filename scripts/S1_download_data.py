@@ -1,15 +1,14 @@
 import sys
-sys.path.append("../")
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.data_loader import download_price_data, save_raw_data, download_riskfree_rate
 
 
 
-
-
-
 def main() -> None:
-
 
     tickers = [
         # Long-history core
@@ -75,7 +74,7 @@ def main() -> None:
         end_date=end_date
     )
     risk_free_rate = download_riskfree_rate(start_date, end_date)
-    save_raw_data(prices, volumes,prices_bench, volumes_bench,risk_free_rate, output_dir="../data/raw")
+    save_raw_data(prices, volumes,prices_bench, volumes_bench,risk_free_rate, output_dir=PROJECT_ROOT/'data'/'raw')
 
 
 

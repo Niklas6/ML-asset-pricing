@@ -26,6 +26,13 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 | 2000-2009 | -0.012 | -0.009 | -0.021 | -0.003 | -0.004 |
 | 2010-2019 | 0.043 | 0.039 | 0.038 | 0.031 | 0.041 |
 
+## How to run 
+pip install -r requirements.txt
+python scripts/S1_download_data.py
+python scripts/S2_process_data.py
+python scripts/run_model.py
+
+
 ## Limitations
 
 The current universe is manually selected and therefore subject to survivorship bias. Yahoo Finance data can also include revisions and ticker-history complications.

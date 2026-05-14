@@ -1,20 +1,28 @@
 
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT))
+
+
+
 import pandas as pd
 import numpy as np
 
 
 def generate_features(train_start_date,test_end_date):
-    df = pd.read_csv('../data/raw/prices.csv', index_col='Date', parse_dates=True)
+    df = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'prices.csv', index_col='Date', parse_dates=True)
     #ts = pd.Timestamp(train_start_date)
     #data_load_time = ts - pd.DateOffset(years=5)
     #data_load_time=data_load_time.strftime("%Y-%m-%d")
     df = df.loc[train_start_date:test_end_date]
 
 
-    df_bench = pd.read_csv('../data/raw/prices_bench.csv', index_col='Date', parse_dates=True)
+    df_bench = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'prices_bench.csv', index_col='Date', parse_dates=True)
     df_bench = df_bench.loc[train_start_date:test_end_date]
 
-    risk_free_rate = pd.read_csv('../data/raw/risk_free_rate.csv', index_col='Date', parse_dates=True)
+    risk_free_rate = pd.read_csv(PROJECT_ROOT/'data'/'raw'/'risk_free_rate.csv', index_col='Date', parse_dates=True)
 
 
     price_monthly = df.resample("ME").last()
