@@ -43,7 +43,10 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         for ind in y_valid.index:
             y_valid_rf[ind] = y_valid[ind] + risk_free_rate.loc[ind[0]]'''
 
-
+        y_valid_riskfree = y_valid.copy()
+        for ind in y_valid_riskfree.index:
+            y_valid_riskfree[ind] = risk_free_rate.shift(-1).loc[ind[0]]
+        # y_valid_riskfree = #risk_free_rate.loc[y_valid.index]
 
 
 
