@@ -60,13 +60,11 @@ The current evaluation focuses on predictive error rather than full tradability.
 
 The project uses a walk-forward cross-sectional prediction setup rather than a random train/test split.
 
-1. Download adjusted close prices and volumes for the stock universe from Yahoo Finance.
-2. Download the S&P 500 as the benchmark and the 13-week Treasury bill yield as the risk-free-rate proxy.
-3. Convert daily prices to month-end observations.
-4. Build one stock-month row per asset with only information available at that month-end.
-5. Train models on a rolling 20-year history.
-6. Predict the following out-of-sample year.
-7. Refit annually and aggregate results by regime.
+1. Download adjusted close prices for the stock universe, S&P 500 as the benchmark and Treasury bill yield as the risk-free-rate proxy from Yahoo Finance.
+2. Convert daily prices to month-end observations and build one stock-month row per asset with only information available at that month-end.
+3. Train and compare models with different parameters on a rolling 20-year history on the validation time 1990-1999.
+4. Predict the following out-of-sample year for models with the best performing parameters.
+5. Refit annually and aggregate results by regime.
 
 The current stock-level features are:
 
