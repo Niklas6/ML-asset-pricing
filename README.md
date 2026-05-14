@@ -1,6 +1,6 @@
 # Empirical Equity Return Prediction
 
-This project investigates whether simple firm-level price features and market-state variables can predict next-month equity returns in a walk-forward setting. It is intended as a portfolio-style quant research project: the focus is on reproducible feature engineering, out-of-sample validation, and comparison between linear, tree-based, boosting, and neural-network models.
+This project investigates whether simple firm-level price features and market-state variables can predict next-month equity returns. It is intended as a portfolio-style quant research project: the focus is on reproducible feature engineering, out-of-sample validation, and comparison between linear, tree-based, boosting.
 
 ## Project Overview
 
