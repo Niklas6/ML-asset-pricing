@@ -9,13 +9,17 @@ The pipeline uses historical equity prices from Yahoo Finance to build monthly c
 Current modelling approaches include:
 
 - Ridge regression
-- Decision trees
 - Random forests
 - Extra trees
 - XGBoost regressors
+- LGBMBoost regressor 
 - A small neural-network regressor
 
-The evaluation is currently based on walk-forward out-of-sample R-squared and RMSE-style error metrics. A portfolio backtest layer is planned so the predictions can also be evaluated using rank correlation, long-short returns, Sharpe ratio, drawdown, turnover, and transaction-cost sensitivity.
+The evaluation is currently based on out of sample metrics comparing the result to the risk free rate in the R^2 metrics. 
+
+
+## Project results 
+
 
 ## Repository Structure
 
