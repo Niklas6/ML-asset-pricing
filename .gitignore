@@ -22,6 +22,9 @@ env/
 # Jupyter
 .ipynb_checkpoints/
 notebooks/
+scripts/X1_data_exploration.ipynb
+scripts/X2_postprocess.ipynb
+
 
 # Local OS files
 .DS_Store
