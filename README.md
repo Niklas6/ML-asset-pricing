@@ -36,7 +36,7 @@ The yearly performance can be seen in the following graphic:
 
 <img src="data/results/performance.png" alt="Prediction Performance by Year" width="750">
 
-This graphic suggests that the prediction is good in a year with normal market conditions; however, in a turbulent year  like the dot com bubble or the financial crisis 2008, the prediction underperforms the risk-free rate. Since the model predicts risk premium, this is not unexpected, but also implies that any strategy using this prediction will have substantial market risk.
+This graphic suggests that the prediction performs well in a year with normal market conditions; however, in a turbulent year like the dot-com bubble or the 2008 financial crisis, the prediction underperforms the risk-free rate. Since the model predicts excess returns, this is not unexpected and also implies that any strategy using this prediction will have substantial market risk.
 
 
 
