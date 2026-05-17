@@ -11,7 +11,7 @@ This project is inspired by Gu, Kelly, and Xiu’s Empirical Asset Pricing via M
 
 The pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
 
-Current modelling approaches include:
+Current modeling approaches include:
 
 - Ridge regressor
 - Random forest regressor
@@ -33,6 +33,11 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 
 
 ![Prediction Performance by Year](data/results/performance.png)
+
+This graphic suggest that the prediction is good in a year with normal market conditions, however in a turbulent years  like the dot com bubble or the financial crisis 2008 the prediction is bad. 
+Since the model predicts risk premium this is not unexpected, but also implies that any strategy using this prediction will have substential market risk .
+
+
 
 ## How to run 
 The project can be run by the following terminal commands:

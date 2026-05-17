@@ -14,7 +14,7 @@ def main() -> None:
         # Long-history core
         "KO", "PG", "XOM", "CVX", "IBM",
         "MMM", "JNJ", "MRK", "PFE", "BMY",
-        "LLY", "ABT", "CL", "GIS", "KMB",
+        "LLY", "ABT", "CL", "GIS",
         "MO", "MCD", "DIS", "BA", "CAT",
         "DE", "EMR", "ITW", "SHW", "IP",
         "SO", "DUK", "ED", "AEP", "T",

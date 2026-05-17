@@ -47,7 +47,8 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
         y_valid_riskfree = y_valid.copy()
         for ind in y_valid_riskfree.index:
-            y_valid_riskfree[ind] = risk_free_rate.shift(-1).loc[ind[0]]
+            y_valid_riskfree[ind] = risk_free_rate.shift(-1).loc[ind[0]].iloc[0]
+            #print(risk_free_rate.shift(-1).loc[ind[0]].iloc[0])
 
 
 
