@@ -34,7 +34,7 @@ The evaluation is based on out-of-sample metrics that compare model forecasts ag
 
 Yearly performance is shown in the following figure:
 
-<img src="data/results/performance.png" alt="Prediction Performance by Year" width="750">
+<img src="data/results/performance_slice.jpg" alt="Prediction Performance by Year" width="750">
 
 The figure suggests that the models perform better in relatively normal market conditions. During turbulent periods, such as the dot-com crash and the 2008 financial crisis, the forecasts often underperform the risk-free-rate baseline. This implies that any strategy based on these forecasts would require careful risk management and should not be evaluated on prediction accuracy alone.
 
