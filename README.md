@@ -32,7 +32,9 @@ The evaluation is currently based on out-of-sample metrics comparing the result 
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
 
 
-![Prediction Performance by Year](data/results/performance.png)
+
+
+<img src="data/results/performance.png" alt="Prediction Performance by Year" width="500">
 
 This graphic suggest that the prediction is good in a year with normal market conditions, however in a turbulent years  like the dot com bubble or the financial crisis 2008 the prediction is bad. 
 Since the model predicts risk premium this is not unexpected, but also implies that any strategy using this prediction will have substential market risk .
