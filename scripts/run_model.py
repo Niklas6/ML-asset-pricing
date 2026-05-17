@@ -66,7 +66,8 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
         k += 1
         if print_years:
-            print(year)
+            print('year: ',year,', ', '# companies:',y_valid.index.get_level_values(1).nunique())
+            #print(y_valid.index.get_level_values(1).unique())
         if k>=max_steps:
             break
         #print(year)
