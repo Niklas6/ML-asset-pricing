@@ -4,9 +4,10 @@ This project investigates whether simple firm-level price features and market-st
 
 It is designed as a portfolio-style quantitative research project using machine learning. The focus is on building a reproducible research pipeline, applying walk-forward out-of-sample validation, and comparing linear, tree-based, and boosting models across different market regimes.
 
-The current `main` branch contains a complete runnable version of the project. The project is still being developed and improved.
+The current `main` branch contains a complete, runnable version of the project. The project is still being developed and improved.
 
-This project is inspired by Gu, Kelly, and Xiu’s Empirical Asset Pricing via Machine Learning, which studies how machine learning methods can be used to predict the cross-section of equity returns.
+This project is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning", which studies how machine learning methods can be used to predict the cross-section of equity returns.
+
 ## Project Overview
 
 The pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
@@ -15,45 +16,43 @@ Current modeling approaches include:
 
 - Ridge regressor
 - Random forest regressor
-- Extra tree regressor
+- Extra Trees regressor
 - XGBoost regressor
 - LightGBM regressor
 
-The evaluation is currently based on out-of-sample metrics comparing the result to the risk-free rate using an R-squared-style metric. The model is trained on a rolling 20-year window, predicts the following year, and is refit annually. I split the evaluation period into three regimes:
+The evaluation is based on out-of-sample metrics that compare model forecasts against a risk-free-rate baseline using an R-squared-style metric. Each model is trained on a rolling 20-year window, predicts the following year, and is refit annually. The evaluation period is split into three regimes:
 
 - 1990-1999: validation period used for model and parameter selection
 - 2000-2009: first test period, covering the dot-com crash and global financial crisis
 - 2010-2019: second test period, covering the post-crisis decade
 
-| Period | Extra tree model | LGBM model | RF model | Ridge model | XGB model |
+| Period | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
 |--------| ---: | ---: | ---: | ---: | ---: |
 | 1990-1999 | 0.037 | 0.038 | 0.029 | 0.034 | 0.038 |
 | 2000-2009 | -0.015 | -0.013 | -0.022 | -0.01 | -0.01 |
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
 
-
-The yearly performance can be seen in the following graphic: 
+Yearly performance is shown in the following figure:
 
 <img src="data/results/performance.png" alt="Prediction Performance by Year" width="750">
 
-This graphic suggests that the prediction performs well in a year with normal market conditions; however, in a turbulent year like the dot-com bubble or the 2008 financial crisis, the prediction underperforms the risk-free rate. Since the model predicts excess returns, this is not unexpected and also implies that any strategy using this prediction will have substantial market risk.
+The figure suggests that the models perform better in relatively normal market conditions. During turbulent periods, such as the dot-com crash and the 2008 financial crisis, the forecasts often underperform the risk-free-rate baseline. This implies that any strategy based on these forecasts would require careful risk management and should not be evaluated on prediction accuracy alone.
 
+## How to Run
 
+The project can be run with the following terminal commands:
 
-## How to run 
-The project can be run by the following terminal commands:
-- pip install -r requirements.txt
-- python scripts/S1_download_data.py
-- python scripts/S2_process_data.py
-- python scripts/run_model.py
-
+```bash
+pip install -r requirements.txt
+python scripts/S1_download_data.py
+python scripts/S2_process_data.py
+python scripts/run_model.py
+```
 
 ## Limitations
 
 - The current universe is manually selected and therefore subject to survivorship bias. Yahoo Finance data can also include revisions and ticker-history complications.
 - The current evaluation focuses on predictive error rather than full tradability. The results should not be interpreted as evidence of a deployable trading strategy until portfolio construction, transaction costs, turnover, and risk controls are added.
-
-
 
 ## Repository Structure
 
@@ -62,8 +61,8 @@ The project can be run by the following terminal commands:
 +-- README.md                         # Project overview, methodology, limitations, and headline results
 +-- .gitignore                        # Excludes environments, caches, notebooks, and generated data
 +-- data/
-|   +-- raw/                          # Local downloaded Yahoo Finance data, ignored by Git to reduce filesize
-|   +-- processed/                    # Local generated feature panel, ignored by Git to reduce filesize
+|   +-- raw/                          # Local downloaded Yahoo Finance data, ignored by Git to reduce file size
+|   +-- processed/                    # Local generated feature panel, ignored by Git to reduce file size
 |   +-- results/                      # Results
 +-- scripts/
 |   +-- S1_download_data.py            # Download raw equity, benchmark, volume, and risk-free-rate data
@@ -81,10 +80,10 @@ The project can be run by the following terminal commands:
 
 The project uses a walk-forward cross-sectional prediction setup rather than a random train/test split.
 
-1. Download adjusted close prices for the stock universe, S&P 500 as the benchmark and Treasury bill yield as the risk-free-rate proxy from Yahoo Finance.
-2. Convert daily prices to month-end observations and build one stock-month row per asset with only information available at that month-end.
-3. Train and compare models with different parameters on a rolling 20-year history on the validation time 1990-1999.
-4. Predict the following out-of-sample year for models with the best performing parameters.
+1. Download adjusted close prices for the stock universe, S&P 500 as the benchmark, and the Treasury bill yield as the risk-free-rate proxy from Yahoo Finance.
+2. Convert daily prices to month-end observations and build one stock-month row per asset using only information available at that month-end.
+3. Train and compare models with different parameters on a rolling 20-year history during the 1990-1999 validation period.
+4. Predict the following out-of-sample year using the models with the best-performing parameters.
 5. Refit annually and aggregate results by regime.
 
 The current stock-level features are:
@@ -109,8 +108,10 @@ The experiment is split into three regimes:
 
 This design is meant to test whether the feature set contains persistent predictive information across distinct market environments.
 
-## Summary 
+## Summary
 
+The results suggest that simple return, volatility, and beta-based features contain some predictive information for next-month equity returns, but the signal is unstable across market regimes. The models perform best during calmer periods and struggle during major market stress events. These findings are consistent with the view that return prediction is difficult and that predictive performance should be evaluated alongside portfolio construction, transaction costs, turnover, and risk controls.
 
 ## Reference
+
 Gu, Shihao, Bryan Kelly, and Dacheng Xiu. "Empirical asset pricing via machine learning." The Review of Financial Studies 33.5 (2020): 2223-2273.
