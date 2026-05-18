@@ -33,17 +33,21 @@ For each period we predict the returns and compare the R^2 to the benchmark of t
 | 1990-1999 | 0.037 | 0.038 | 0.029 | 0.034 | 0.038 |
 | 2000-2009 | -0.015 | -0.013 | -0.022 | -0.01 | -0.01 |
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
-
-Then 
-
-
-
-
-Yearly performance is shown in the following figure:
-
+The performance of the prediction is shown in the following figure:
 <img src="data/results/performance_slice.jpg" alt="Prediction Performance by Year" width="750">
 
 The strongest results occur in the 1990s validation period and 2010s test period. All models struggle during 2000-2009, particularly around the dot-com crash and global financial crisis, which suggests that the signal has a strong market dependence.
+### Backtest
+To test if we can build a strategy which uses the prediction to generate a portfolio which generates revenue we built a 
+
+| Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
+|----------| ---: | ---: | ---: | ---: | ---: |
+| 1990-1999 | ... | ... | ... | ... | ... |
+| 2000-2009 | ... | ... | ... | ... | ... |
+| 2010-2019 | ...| ... | ... | ... | ... |
+The performance of the backtest is shown in the following figure:
+
+<img src="data/results/graphic_backtest.png" alt="Prediction Performance by Year" width="750">
 
 ## How to Run
 
