@@ -25,7 +25,7 @@ The evaluation is based on out-of-sample metrics that compare model forecasts ag
 - 1990-1999: validation period used for model and parameter selection
 - 2000-2009: first test period, covering the dot-com crash and global financial crisis
 - 2010-2019: second test period, covering the post-crisis decade
-# Prediction
+### Prediction
 For each period we predict the returns and compare the R^2 to the benchmark of the risk free rate which gives the prediction performance:
 
 | Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
