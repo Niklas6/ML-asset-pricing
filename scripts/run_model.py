@@ -22,8 +22,7 @@ from dataclasses import dataclass, field
 @dataclass(slots=True)
 class ModelData:
     name: str
-    revenue_df: pd.DataFrame #= field(default_factory=pd.DataFrame({'revenue':[]}))
-    #pd.DataFrame({'revenue':[]})
+    revenue_df: pd.DataFrame
 
 
 def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20,
@@ -36,11 +35,6 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
     rows=[]
     k=0
-    #Revenue_df=pd.DataFrame({ },index=Models.keys())
-    #print(Revenue_df)
-    #for name in Models.keys():
-    #    dg = pd.DataFrame({ },index=['revenue'])
-    #    ModelDict[name]=ModelData(name=name,revenue_df= dg)
 
     #print(ModelDict)
     Yearly_revenue=pd.DataFrame()
@@ -66,7 +60,6 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         y_valid_riskfree = y_valid.copy()
         for ind in y_valid_riskfree.index:
             y_valid_riskfree[ind] = risk_free_rate.shift(-1).loc[ind[0]].iloc[0]
-            #print(risk_free_rate.shift(-1).loc[ind[0]].iloc[0])
 
 
 
@@ -97,31 +90,12 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
         ydf= montly_revenue_df.sum(axis=0).to_frame().T
         ydf.index = [year]
         Yearly_revenue=pd.concat([Yearly_revenue, ydf], axis=0)
-        #print(Yearly_revenue)
-        #yearly_revenue=Montly_revenue_df.groupby(Models.keys()).sum()
-        #print(yearly_revenue)
-
-        #Yearly_revenue = pd.concat([Yearly_revenue, yearly_revenue], axis=0)
-        #print(Yearly_revenue)
-
-
-
-                #ModelDict[name].revenue_df[month] = revenue
-
-                #print(ModelDict[name].revenue_df)
-                #ModelDict[name].revenue.loc[month] = port
-                #break
-            #break
-        #break
-
 
 
 
         k += 1
         if print_years:
             print('year: ',year,', ', '# companies:',y_valid.index.get_level_values(1).nunique())
-            #print(yearly_revenue.T)
-            #print(y_valid.index.get_level_values(1).unique())
         if k>=max_steps:
             break
         #print(year)
@@ -133,7 +107,6 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
     eval_summary=eval_summary.round(3)
     eval_stat=eval_stat.round(3)
-    #print(ModelDict)
 
     return {'eval_summary':eval_summary,
             'eval_stat':eval_stat,
@@ -155,7 +128,6 @@ if __name__ == "__main__":
     eval_summary_valid=valid_run['eval_summary']
     eval_mean_valid=valid_run['eval_stat']
     Yearly_revenue_valid=valid_run['Yearly_revenue']
-    #print(Yearly_revenue_valid)
 
 
     test1_run=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
@@ -181,26 +153,26 @@ if __name__ == "__main__":
         '2010-2019': eval_mean_test2.iloc[0],
     }).T
 
-    evaluation.to_csv(path_eval / 'evaluation_decade.csv')
+    evaluation.to_csv(path_eval / 'prediction_decade.csv')
 
     Yearly_revenue_valid.sum()
 
     revenue_periods= pd.DataFrame({
-        '1990-1999': (Yearly_revenue_valid.sum()/12).round(3),
-        '2000-2009': (Yearly_revenue_test1.sum()/12).round(3),
-        '2010-2019': (Yearly_revenue_test2.sum()/12).round(3),
+        '1990-1999': (Yearly_revenue_valid.sum()/10).round(3),
+        '2000-2009': (Yearly_revenue_test1.sum()/10).round(3),
+        '2010-2019': (Yearly_revenue_test2.sum()/10).round(3),
     }).T
     revenue_AllYears = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).round(3)
     #print(revenue_periods)
     #print(revenue_AllYears)
 
-    revenue_periods.to_csv(path_eval / 'revenue_periods.csv')
-    revenue_AllYears.to_csv(path_eval / 'revenue_AllYears.csv')
+    revenue_periods.to_csv(path_eval / 'backtest_decade.csv')
+    revenue_AllYears.to_csv(path_eval / 'backtest_yearly.csv')
 
 
-    eval_summary_valid.to_csv(path_eval / 'valid_yearly.csv')
-    eval_summary_test1.to_csv(path_eval / 'test1_yearly.csv')
-    eval_summary_test2.to_csv(path_eval / 'test2_yearly.csv')
+    prediction_yearly= pd.concat([eval_summary_valid, eval_summary_test1, eval_summary_test2], axis=0).round(3)
+
+    prediction_yearly.to_csv(path_eval / 'prediction_yearly.csv')
 
 
 

@@ -113,9 +113,9 @@ This design is meant to test whether the feature set contains persistent predict
 ## Comparison 
 
 
-<img src="data/results/prediction_graphic.png" alt="Prediction Performance by Year" width="750">
+<img src="data/results/graphic_prediction.png" alt="Prediction Performance by Year" width="750">
 
-<img src="data/results/backtest_graphic.png" alt="Prediction Performance by Year" width="750">
+<img src="data/results/graphic_backtest.png" alt="Prediction Performance by Year" width="750">
 
 
 

@@ -25,7 +25,6 @@ def uniform_25(y_pred_month):
 def portfolio_weight(y_pred_month):
     #n = int(len(y_pred_month) / 2)
 
-
     rel_pred= y_pred_month-y_pred_month.mean()
 
 
@@ -37,8 +36,8 @@ def portfolio_weight(y_pred_month):
 
 
 
-    long['weight'] = rel_long/rel_long.sum()
-    short['weight'] =rel_short/rel_short.sum()
+    long['weight'] = rel_long/rel_long.sum()/2
+    short['weight'] =rel_short/rel_short.sum()/2
 
     port = Portfolio(long=long, short=short)
     return port
