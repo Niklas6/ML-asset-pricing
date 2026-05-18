@@ -108,6 +108,18 @@ The experiment is split into three regimes:
 
 This design is meant to test whether the feature set contains persistent predictive information across distinct market environments.
 
+
+
+## Comparison 
+
+
+<img src="data/results/prediction_graphic.png" alt="Prediction Performance by Year" width="750">
+
+<img src="data/results/backtest_graphic.png" alt="Prediction Performance by Year" width="750">
+
+
+
+
 ## Summary
 
 The results suggest that simple return, volatility, and beta-based features contain some predictive information for next-month equity returns, but the signal is unstable across market regimes. The models perform best during calmer periods and struggle during major market stress events. These findings are consistent with the view that return prediction is difficult and that predictive performance should be evaluated alongside portfolio construction, transaction costs, turnover, and risk controls.

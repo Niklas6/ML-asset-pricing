@@ -12,8 +12,19 @@ from src.features import get_dataset, get_periods
 
 from src.evaluate_prediction import  evaluate_prediction
 
+from src.portfolio import Portfolio, uniform_25, revenue_pred,portfolio_weight
+
 
 import src.Models
+
+from dataclasses import dataclass, field
+
+@dataclass(slots=True)
+class ModelData:
+    name: str
+    revenue_df: pd.DataFrame #= field(default_factory=pd.DataFrame({'revenue':[]}))
+    #pd.DataFrame({'revenue':[]})
+
 
 def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20,
                 valid_years = 1,
@@ -23,9 +34,16 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
     Periods= get_periods(Simulation_start_date,Simulation_end_date, train_years = train_years, valid_years = valid_years, step_years = step_years)
 
-
     rows=[]
     k=0
+    #Revenue_df=pd.DataFrame({ },index=Models.keys())
+    #print(Revenue_df)
+    #for name in Models.keys():
+    #    dg = pd.DataFrame({ },index=['revenue'])
+    #    ModelDict[name]=ModelData(name=name,revenue_df= dg)
+
+    #print(ModelDict)
+    Yearly_revenue=pd.DataFrame()
     for i in Periods.index:
         Dataset= get_dataset(Periods.iloc[i])
         Z_train=Dataset["Z_train"]
@@ -63,10 +81,46 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
                         "R2_valid": r2_value,
                         "mqe_valid": mqe_value,
                     })
+        montly_revenue_df = pd.DataFrame(index=Z_valid.index.get_level_values(0).unique(), columns=Models.keys(), dtype=float)
+        for month in Z_valid.index.get_level_values(0).unique():
+            for name, model in Models.items():
+                y_valid_month = y_valid.loc[month, :]
+                y_pred_month = model.predict(Z_valid.loc[month, :])
+                y_pred_month = pd.DataFrame({'prediction': y_pred_month}, index=Z_valid.loc[month, :].index)
+                y_pred_month = y_pred_month.sort_values(by=['prediction'])
+                port = portfolio_weight(y_pred_month)
+                revenue= revenue_pred(port, y_valid_month)
+                #print(month,name)
+                montly_revenue_df.loc[month,name]=revenue
+
+
+        ydf= montly_revenue_df.sum(axis=0).to_frame().T
+        ydf.index = [year]
+        Yearly_revenue=pd.concat([Yearly_revenue, ydf], axis=0)
+        #print(Yearly_revenue)
+        #yearly_revenue=Montly_revenue_df.groupby(Models.keys()).sum()
+        #print(yearly_revenue)
+
+        #Yearly_revenue = pd.concat([Yearly_revenue, yearly_revenue], axis=0)
+        #print(Yearly_revenue)
+
+
+
+                #ModelDict[name].revenue_df[month] = revenue
+
+                #print(ModelDict[name].revenue_df)
+                #ModelDict[name].revenue.loc[month] = port
+                #break
+            #break
+        #break
+
+
+
 
         k += 1
         if print_years:
             print('year: ',year,', ', '# companies:',y_valid.index.get_level_values(1).nunique())
+            #print(yearly_revenue.T)
             #print(y_valid.index.get_level_values(1).unique())
         if k>=max_steps:
             break
@@ -79,8 +133,12 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
     eval_summary=eval_summary.round(3)
     eval_stat=eval_stat.round(3)
+    #print(ModelDict)
 
-    return eval_summary, eval_stat
+    return {'eval_summary':eval_summary,
+            'eval_stat':eval_stat,
+            'Yearly_revenue':Yearly_revenue
+            }
 
 
 
@@ -91,15 +149,27 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
 if __name__ == "__main__":
     Models = src.Models.build_models()
-    eval_summary_valid, eval_mean_valid=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    valid_run=run_model(Models,"1970-01-31","1999-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Valid run finished')
 
+    eval_summary_valid=valid_run['eval_summary']
+    eval_mean_valid=valid_run['eval_stat']
+    Yearly_revenue_valid=valid_run['Yearly_revenue']
+    #print(Yearly_revenue_valid)
 
-    eval_summary_test1, eval_mean_test1=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+
+    test1_run=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('First test run finished')
+    eval_summary_test1=test1_run['eval_summary']
+    eval_mean_test1=test1_run['eval_stat']
+    Yearly_revenue_test1=test1_run['Yearly_revenue']
 
-    eval_summary_test2, eval_mean_test2=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+
+    test2_run=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Second test run finished')
+    eval_summary_test2=test2_run['eval_summary']
+    eval_mean_test2=test2_run['eval_stat']
+    Yearly_revenue_test2=test2_run['Yearly_revenue']
 
     dir_eval = PROJECT_ROOT /'data'/'results'
     path_eval = Path(dir_eval)
@@ -112,6 +182,20 @@ if __name__ == "__main__":
     }).T
 
     evaluation.to_csv(path_eval / 'evaluation_decade.csv')
+
+    Yearly_revenue_valid.sum()
+
+    revenue_periods= pd.DataFrame({
+        '1990-1999': (Yearly_revenue_valid.sum()/12).round(3),
+        '2000-2009': (Yearly_revenue_test1.sum()/12).round(3),
+        '2010-2019': (Yearly_revenue_test2.sum()/12).round(3),
+    }).T
+    revenue_AllYears = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).round(3)
+    #print(revenue_periods)
+    #print(revenue_AllYears)
+
+    revenue_periods.to_csv(path_eval / 'revenue_periods.csv')
+    revenue_AllYears.to_csv(path_eval / 'revenue_AllYears.csv')
 
 
     eval_summary_valid.to_csv(path_eval / 'valid_yearly.csv')
