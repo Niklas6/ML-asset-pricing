@@ -36,7 +36,7 @@ Yearly performance is shown in the following figure:
 
 <img src="data/results/performance_slice.jpg" alt="Prediction Performance by Year" width="750">
 
-The figure suggests that the models perform better in relatively normal market conditions. During turbulent periods, such as the dot-com crash and the 2008 financial crisis, the forecasts often underperform the risk-free-rate baseline. This implies that any strategy based on these forecasts would require careful risk management and should not be evaluated on prediction accuracy alone.
+The strongest results occur in the 1990s validation period and 2010s test period. All models struggle during 2000-2009, particularly around the dot-com crash and global financial crisis, which suggests that the signal has a strong market dependence.
 
 ## How to Run
 
@@ -111,6 +111,8 @@ This design is meant to test whether the feature set contains persistent predict
 ## Summary
 
 The results suggest that simple return, volatility, and beta-based features contain some predictive information for next-month equity returns, but the signal is unstable across market regimes. The models perform best during calmer periods and struggle during major market stress events. These findings are consistent with the view that return prediction is difficult and that predictive performance should be evaluated alongside portfolio construction, transaction costs, turnover, and risk controls.
+
+The next step is to see if this prediction translates in a better performing portfolio. 
 
 ## Reference
 
