@@ -1,12 +1,12 @@
 # Empirical Equity Return Prediction
 
-This project investigates whether simple firm-level price features and market-state variables contain predictive information for next-month equity returns.
+This project investigates whether simple firm-level price features and market-state variables contain predictive information for next-month equity returns. Then we backtest the prediction by building a portfolio. 
 
 It is designed as a portfolio-style quantitative research project using machine learning. The focus is on building a reproducible research pipeline, applying walk-forward out-of-sample validation, and comparing linear, tree-based, and boosting models across different market regimes.
 
 The current `main` branch contains a complete, runnable version of the project. The project is still being developed and improved.
 
-This project is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning", which studies how machine learning methods can be used to predict the cross-section of equity returns.
+The prediction is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning", which studies how machine learning methods can be used to predict the cross-section of equity returns.
 
 ## Project Overview
 
@@ -25,14 +25,19 @@ The evaluation is based on out-of-sample metrics that compare model forecasts ag
 - 1990-1999: validation period used for model and parameter selection
 - 2000-2009: first test period, covering the dot-com crash and global financial crisis
 - 2010-2019: second test period, covering the post-crisis decade
-
-For each period we calculate the 
+# Prediction
+For each period we predict the returns and compare the R^2 to the benchmark of the risk free rate which gives the prediction performance:
 
 | Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
 |----------| ---: | ---: | ---: | ---: | ---: |
 | 1990-1999 | 0.037 | 0.038 | 0.029 | 0.034 | 0.038 |
 | 2000-2009 | -0.015 | -0.013 | -0.022 | -0.01 | -0.01 |
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
+
+Then 
+
+
+
 
 Yearly performance is shown in the following figure:
 
