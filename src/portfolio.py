@@ -13,7 +13,7 @@ class Portfolio:
     short: pd.DataFrame
 
 def uniform_25(y_pred_month):
-    n = int(len(y_pred_month) / 10)
+    n = int(len(y_pred_month) / 4)
     long = y_pred_month.tail(n)
     short = y_pred_month.head(n)
     long['weight'] = 1 / n

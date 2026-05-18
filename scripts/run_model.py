@@ -29,7 +29,7 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
                 valid_years = 1,
                 step_years = 1,max_steps = 50 ,print_years=False ):
 
-
+    #print(Models.keys())
 
     Periods= get_periods(Simulation_start_date,Simulation_end_date, train_years = train_years, valid_years = valid_years, step_years = step_years)
 
@@ -87,7 +87,8 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
                 montly_revenue_df.loc[month,name]=revenue
 
 
-        ydf= montly_revenue_df.sum(axis=0).to_frame().T
+        #ydf= montly_revenue_df.sum(axis=0).to_frame().T
+        ydf=((1 + montly_revenue_df).prod(axis=0) - 1).to_frame().T
         ydf.index = [year]
         Yearly_revenue=pd.concat([Yearly_revenue, ydf], axis=0)
 
@@ -130,7 +131,7 @@ if __name__ == "__main__":
     Yearly_revenue_valid=valid_run['Yearly_revenue']
 
 
-    test1_run=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
+    test1_run=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps =10,print_years=True)
     print('First test run finished')
     eval_summary_test1=test1_run['eval_summary']
     eval_mean_test1=test1_run['eval_stat']
@@ -147,31 +148,33 @@ if __name__ == "__main__":
     path_eval = Path(dir_eval)
     path_eval.mkdir(parents=True, exist_ok=True)
 
-    evaluation = pd.DataFrame({
+    prediction_decade = pd.DataFrame({
         '1990-1999': eval_mean_valid.iloc[0],
         '2000-2009': eval_mean_test1.iloc[0],
         '2010-2019': eval_mean_test2.iloc[0],
     }).T
+    prediction_decade=prediction_decade.loc[:,Models.keys()]
+    prediction_decade.to_csv(path_eval / 'prediction_decade.csv')
 
-    evaluation.to_csv(path_eval / 'prediction_decade.csv')
-
-    Yearly_revenue_valid.sum()
-
-    revenue_periods= pd.DataFrame({
-        '1990-1999': (Yearly_revenue_valid.sum()/10).round(3),
-        '2000-2009': (Yearly_revenue_test1.sum()/10).round(3),
-        '2010-2019': (Yearly_revenue_test2.sum()/10).round(3),
+    backtest_decade= pd.DataFrame({
+        "1990-1999": ((1 + Yearly_revenue_valid).prod(axis=0) ** (1 / 10) - 1).round(3),
+        "2000-2009": ((1 + Yearly_revenue_test1).prod(axis=0) ** (1 / 10) - 1).round(3),
+        "2010-2019": ((1 + Yearly_revenue_test2).prod(axis=0) ** (1 / 10) - 1).round(3),
     }).T
-    revenue_AllYears = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).round(3)
-    #print(revenue_periods)
-    #print(revenue_AllYears)
+    ''''1990-1999': ((1 + Yearly_revenue_valid).prod(axis=0) **(1/10)- 1).to_frame().T,# (Yearly_revenue_valid.sum()/10).round(3),
+            '2000-2009': ((1 + Yearly_revenue_test1).prod(axis=0) **(1/10)- 1).to_frame().T, #(Yearly_revenue_test1.sum()/10).round(3),
+            '2010-2019': ((1 + Yearly_revenue_test2).prod(axis=0) **(1/10)- 1).to_frame().T# (Yearly_revenue_test2.sum()/10).round(3),'''
+    backtest_decade=backtest_decade.loc[:,Models.keys()]
+    backtest_decade.to_csv(path_eval / 'backtest_decade.csv')
 
-    revenue_periods.to_csv(path_eval / 'backtest_decade.csv')
-    revenue_AllYears.to_csv(path_eval / 'backtest_yearly.csv')
+
+    backtest_yearly = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).round(3)
+    backtest_yearly=backtest_yearly.loc[:,Models.keys()]
+    backtest_yearly.to_csv(path_eval / 'backtest_yearly.csv')
 
 
     prediction_yearly= pd.concat([eval_summary_valid, eval_summary_test1, eval_summary_test2], axis=0).round(3)
-
+    prediction_yearly = prediction_yearly.loc[:, Models.keys()]
     prediction_yearly.to_csv(path_eval / 'prediction_yearly.csv')
 
 

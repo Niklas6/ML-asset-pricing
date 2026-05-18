@@ -26,8 +26,10 @@ The evaluation is based on out-of-sample metrics that compare model forecasts ag
 - 2000-2009: first test period, covering the dot-com crash and global financial crisis
 - 2010-2019: second test period, covering the post-crisis decade
 
-| Period | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
-|--------| ---: | ---: | ---: | ---: | ---: |
+For each period we calculate the 
+
+| Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
+|----------| ---: | ---: | ---: | ---: | ---: |
 | 1990-1999 | 0.037 | 0.038 | 0.029 | 0.034 | 0.038 |
 | 2000-2009 | -0.015 | -0.013 | -0.022 | -0.01 | -0.01 |
 | 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
