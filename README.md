@@ -105,9 +105,7 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 - The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance, but would also increase the risk of overfitting and would require more computational power.
 - The results should be interpreted as evidence from a research prototype, not as evidence of a deployable trading strategy.
 
-## Future Improvements
-
-- Use a survivorship-bias-free equity universe with delisting returns.
+## Next steps and further improvement
 - Add transaction costs, turnover, leverage, drawdown, and Sharpe ratio analysis.
 - Compare against equal-weight, market-cap-weight, S&P 500, and simple momentum baselines.
 - Add unit tests for feature construction, train/test splits, evaluation metrics, and portfolio weights.
@@ -115,7 +113,7 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 
 ## Summary
 
-This project finds that simple price-based firm characteristics contain some information about next-month cross-sectional equity returns, but the signal is unstable across market regimes. The models produce positive out-of-sample predictive performance in the 1990s and 2010s, while performance deteriorates during the 2000-2009 period that includes the dot-com crash and global financial crisis.
+This project finds that simple price-based firm characteristics contain some information about next-month equity returns, but the signal is unstable across market regimes. The models produce positive out-of-sample predictive performance in the 1990s and 2010s, while performance deteriorates during the 2000-2009 period that includes the dot-com crash and global financial crisis.
 
 The backtest suggests that the prediction signal can translate into positive long-short portfolio returns before costs, but the result should be treated cautiously because the portfolio is idealized and the stock universe is survivorship-biased. The main value of the project is therefore not a claim of a production-ready strategy, but a reproducible empirical asset-pricing workflow: data collection, feature construction, walk-forward validation, model comparison, and regime-based evaluation.
 
