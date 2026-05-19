@@ -12,7 +12,6 @@ The prediction is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via 
 The prediction pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
 
 Current modeling approaches include:
-
 - Ridge regressor
 - Random forest regressor
 - Extra Trees regressor
