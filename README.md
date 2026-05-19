@@ -1,13 +1,5 @@
 # Empirical Equity Return Prediction
 
-This project investigates whether firm-level price features and market-state variables contain predictive information for next-month equity returns.
-
-It is designed as a portfolio-style quantitative research project using machine learning. The project predicts next-month stock returns from historical price features, compares linear, tree-based, and boosting models, and backtests a monthly rebalanced long-short portfolio in an idealized setting with no transaction costs.
-
-The prediction setup is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning", which studies how machine learning models can be used to predict the cross-section of equity returns.
-
-# Empirical Equity Return Prediction
-
 This project studies whether simple firm-level price signals can predict next-month equity returns in the cross-section of U.S. stocks.
 
 Using historical Yahoo Finance data, I build a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
