@@ -1,4 +1,4 @@
-,Ridge model,RF model,Extra tree model,XGB model,LGBM model
+year,Ridge model,RF model,Extra tree model,XGB model,LGBM model
 1990,0.048,0.105,0.098,0.104,0.01
 1991,0.245,0.06,0.293,0.176,0.072
 1992,0.154,0.169,0.177,0.207,0.192

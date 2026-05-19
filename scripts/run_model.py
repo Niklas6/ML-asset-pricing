@@ -5,6 +5,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
+import numpy as np
 
 from pathlib import Path
 
@@ -12,7 +13,7 @@ from src.features import get_dataset, get_periods
 
 from src.evaluate_prediction import  evaluate_prediction
 
-from src.portfolio import Portfolio, uniform_25, revenue_pred,portfolio_weight
+from src.portfolio import Portfolio, uniform_25, revenue_pred,portfolio_weight, backtest_diag
 
 
 import src.Models
@@ -37,7 +38,9 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
     k=0
 
     #print(ModelDict)
-    Yearly_revenue=pd.DataFrame()
+    Yearly_revenue=pd.DataFrame(index=pd.Index([], name="year"))
+
+    Yearly_volat=pd.DataFrame()
     for i in Periods.index:
         Dataset= get_dataset(Periods.iloc[i])
         Z_train=Dataset["Z_train"]
@@ -87,10 +90,10 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
                 montly_revenue_df.loc[month,name]=revenue
 
 
-        #ydf= montly_revenue_df.sum(axis=0).to_frame().T
-        ydf=((1 + montly_revenue_df).prod(axis=0) - 1).to_frame().T
-        ydf.index = [year]
-        Yearly_revenue=pd.concat([Yearly_revenue, ydf], axis=0)
+        ydf = ((1 + montly_revenue_df).prod(axis=0) - 1).to_frame().T
+        ydf.index = pd.Index([year], name="year")
+        Yearly_revenue = pd.concat([Yearly_revenue, ydf], axis=0)
+        #Yearly_revenue.index ="year"
 
 
 
@@ -108,10 +111,12 @@ def run_model(Models,Simulation_start_date,Simulation_end_date, train_years = 20
 
     eval_summary=eval_summary.round(3)
     eval_stat=eval_stat.round(3)
-
+    #print(Yearly_revenue)
+    #Yearly_revenue.set_index('year', inplace=True)
     return {'eval_summary':eval_summary,
             'eval_stat':eval_stat,
-            'Yearly_revenue':Yearly_revenue
+            'yearly_revenue':Yearly_revenue,
+            'backtest_data': backtest_diag(Yearly_revenue)
             }
 
 
@@ -128,21 +133,24 @@ if __name__ == "__main__":
 
     eval_summary_valid=valid_run['eval_summary']
     eval_mean_valid=valid_run['eval_stat']
-    Yearly_revenue_valid=valid_run['Yearly_revenue']
+    Yearly_revenue_valid=valid_run['yearly_revenue']
+    backtest_data_valid=valid_run['backtest_data']
 
 
     test1_run=run_model(Models,"1980-01-31","2009-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps =10,print_years=True)
     print('First test run finished')
     eval_summary_test1=test1_run['eval_summary']
     eval_mean_test1=test1_run['eval_stat']
-    Yearly_revenue_test1=test1_run['Yearly_revenue']
+    Yearly_revenue_test1=test1_run['yearly_revenue']
+    backtest_data_test1=test1_run['backtest_data']
 
 
     test2_run=run_model(Models,"1990-01-31","2019-12-31",train_years = 20, valid_years = 1,step_years = 1 ,max_steps = 10,print_years=True)
     print('Second test run finished')
     eval_summary_test2=test2_run['eval_summary']
     eval_mean_test2=test2_run['eval_stat']
-    Yearly_revenue_test2=test2_run['Yearly_revenue']
+    Yearly_revenue_test2=test2_run['yearly_revenue']
+    backtest_data_test2=test2_run['backtest_data']
 
     dir_eval = PROJECT_ROOT /'data'/'results'
     path_eval = Path(dir_eval)
@@ -168,7 +176,7 @@ if __name__ == "__main__":
     backtest_decade.to_csv(path_eval / 'backtest_decade.csv')
 
 
-    backtest_yearly = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).round(3)
+    backtest_yearly = pd.concat([Yearly_revenue_valid,Yearly_revenue_test1,Yearly_revenue_test2], axis=0).rename_axis("year").round(3)
     backtest_yearly=backtest_yearly.loc[:,Models.keys()]
     backtest_yearly.to_csv(path_eval / 'backtest_yearly.csv')
 
@@ -176,6 +184,10 @@ if __name__ == "__main__":
     prediction_yearly= pd.concat([eval_summary_valid, eval_summary_test1, eval_summary_test2], axis=0).round(3)
     prediction_yearly = prediction_yearly.loc[:, Models.keys()]
     prediction_yearly.to_csv(path_eval / 'prediction_yearly.csv')
+
+
+    backtest_data = pd.concat([backtest_data_valid,backtest_data_test1,backtest_data_test2], axis=0).rename_axis("year").round(3)
+    backtest_data.to_csv(path_eval / 'backtest_data.csv')
 
 
 

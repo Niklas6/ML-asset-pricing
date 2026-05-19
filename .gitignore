@@ -24,6 +24,7 @@ env/
 notebooks/
 scripts/X1_data_exploration.ipynb
 scripts/X2_postprocess.ipynb
+scripts/X3_testfile.ipynb
 
 
 # Local OS files

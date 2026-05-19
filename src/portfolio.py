@@ -43,7 +43,22 @@ def portfolio_weight(y_pred_month):
     return port
 
 
+def backtest_diag(df):
+    #arithmetic_average_return= df.mean()
+    geometric_average_return= ((1 + df).prod() ** (1 / len(df))) - 1
+    volatility= df.std()
+    max_drawdown= df.min()
 
+
+
+    dg=pd.DataFrame({
+        'period':str(df.index[0])+'-'+str(df.index[-1]),
+        'annual return': geometric_average_return,
+        'volatility':volatility,
+        'sharpe': geometric_average_return/volatility,
+        'max drawdown': max_drawdown
+    })
+    return dg
 
 
 def revenue_pred(port, y_valid_month):
