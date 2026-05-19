@@ -4,14 +4,14 @@ This project studies whether simple firm-level price signals can predict next-mo
 
 Using historical Yahoo Finance data, I build a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
 
-The project is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a reproducible quantitative research workflow rather than a production trading strategy.
+I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a reproducible quantitative research workflow rather than a production trading strategy.
 
-## Key Findings
+## Insights
 
 - Simple lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
 - Prediction performance is regime-dependent: models perform well in the 1990s and 2010s but struggle during 2000-2009.
 - The long-short backtest produces positive annualized returns in all three periods before transaction costs.
-- The prediction shows good performance in identifying winning and losing assets.
+ The backtest suggests that the forecasts is better at identifying winning and losing assets than in the R squared error
 - Results should be interpreted as a research prototype because the stock universe is manually selected and subject to survivorship bias.
 
 ## Project Overview
@@ -99,23 +99,22 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 ## Limitations
 
 - The stock universe is manually selected and therefore subject to survivorship bias. It overrepresents firms with long available histories and does not properly include delisted, bankrupt, acquired, or renamed firms.
-- Yahoo Finance data is accessible for me, but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
+- Yahoo Finance data is accessible, but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
 - The risk-free-rate proxy is an approximation and may not perfectly match the timing, maturity, or investability assumptions used in a real portfolio.
 - The backtest is idealized. It excludes transaction costs, bid-ask spreads, slippage, financing costs, short-borrow costs, taxes, liquidity constraints, and position-size limits.
 - The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance, but would also increase the risk of overfitting and would require more computational power.
 - The results should be interpreted as evidence from a research prototype, not as evidence of a deployable trading strategy.
 
-## Next steps and further improvement
+## Next Steps and Further Improvements
 - Add transaction costs, turnover, leverage, drawdown, and Sharpe ratio analysis.
 - Compare against equal-weight, market-cap-weight, S&P 500, and simple momentum baselines.
 - Add unit tests for feature construction, train/test splits, evaluation metrics, and portfolio weights.
 - Expand the feature set with accounting variables, liquidity measures, valuation ratios, and sector controls.
 
 ## Summary
+Overall, the results are encouraging but not stable enough to claim a trading strategy. The models find some signal in the 1990s and 2010s, while the 2000-2009 period is much harder. The backtest is positive before costs, which suggests that the forecasts may be more useful for ranking stocks than for minimizing squared prediction error.
 
-This project finds that simple price-based firm characteristics contain some information about next-month equity returns, but the signal is unstable across market regimes. The models produce positive out-of-sample predictive performance in the 1990s and 2010s, while performance deteriorates during the 2000-2009 period that includes the dot-com crash and global financial crisis.
-
-The backtest suggests that the prediction signal can translate into positive long-short portfolio returns before costs, but the result should be treated cautiously because the portfolio is idealized and the stock universe is survivorship-biased. The main value of the project is therefore not a claim of a production-ready strategy, but a reproducible empirical asset-pricing workflow: data collection, feature construction, walk-forward validation, model comparison, and regime-based evaluation.
+The main takeaway is that the project gives a reproducible framework for empirical asset-pricing research: build a monthly stock panel, run walk-forward validation, compare model classes, and test whether predictive signals survive a simple portfolio construction step.
 
 ## Repository Structure
 
