@@ -111,11 +111,12 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 - Expand the feature set with accounting variables, liquidity measures, valuation ratios, and sector controls.
 
 ## Summary
-Overall, the results suggest that we can predict returns by machine learning models and in an idealised setting, this prediction leads to returns. However, we expect that in a practical setting, the prediction is not stable enough to yield positive returns and would need improvements. 
+
+Overall, the results suggest that simple machine learning models can extract some predictive information from price-based equity features. In an idealized backtest, this signal translates into positive long-short returns before transaction costs. However, the signal is not stable across market regimes, and the strategy would need substantial improvements before it could be interpreted as practically tradable.
 
 The models find some signal in the 1990s and 2010s, while the 2000-2009 period is much harder. The backtest is positive before costs, which suggests that the forecasts may be more useful for ranking stocks than for minimizing squared prediction error.
 
-The main takeaway is that the project gives a reproducible framework for empirical asset-pricing research: build a monthly stock panel, run walk-forward validation, compare model classes, and test whether predictive signals survive a simple portfolio construction step.
+The main takeaway is that the project provides a reproducible framework for empirical asset-pricing research: building a monthly stock panel, running walk-forward validation, comparing model classes, and testing whether predictive signals survive a simple portfolio construction step.
 
 ## Repository Structure
 
