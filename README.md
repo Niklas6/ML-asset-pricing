@@ -1,8 +1,8 @@
 # Empirical Equity Return Prediction
 
-This project studies whether simple firm-level price signals can predict next-month equity returns in the cross-section of U.S. stocks.
+In this project, I study whether simple firm-level price signals can predict next-month equity returns in the cross-section of U.S. stocks.
 
-Using historical Yahoo Finance data, I build a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
+Using historical Yahoo Finance data, I built a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
 
 I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a reproducible quantitative research workflow rather than a production trading strategy.
 
@@ -16,7 +16,7 @@ I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, a
 
 ## Project Overview
 
-The prediction pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
+My prediction pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
 
 Current modeling approaches include:
 
@@ -64,7 +64,7 @@ The performance of the backtest is shown in the following figure:
 
 ## Methodology
 
-The project uses a walk-forward cross-sectional prediction design rather than a random train/test split. At each annual step, the models are trained on the previous 20 years of monthly stock observations and then used to predict the next 12 out-of-sample monthly cross-sections. The models are refit once per year, so the evaluation mimics a researcher updating a model through time using only past data.
+My project uses a walk-forward cross-sectional prediction design rather than a random train/test split. At each annual step, the models are trained on the previous 20 years of monthly stock observations and then used to predict the next 12 out-of-sample monthly cross-sections. The models are refit once per year, so the evaluation mimics a researcher updating a model through time using only past data.
 
 The raw data consists of adjusted close prices for the selected stock universe, S&P 500 prices as the market benchmark, and a Treasury bill yield proxy for the risk-free rate. Daily prices are converted into month-end observations, and each row in the processed dataset represents one stock at one month-end.
 
