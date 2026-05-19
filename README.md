@@ -6,6 +6,14 @@ It is designed as a portfolio-style quantitative research project using machine 
 
 The prediction setup is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning", which studies how machine learning models can be used to predict the cross-section of equity returns.
 
+# Empirical Equity Return Prediction
+
+This project studies whether simple firm-level price signals can predict next-month equity returns in the cross-section of U.S. stocks.
+
+Using historical Yahoo Finance data, I build a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
+
+The project is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a reproducible quantitative research workflow rather than a production trading strategy.
+
 ## Key Findings
 
 - Simple lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
