@@ -11,6 +11,7 @@ The project is inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Mac
 - Simple lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
 - Prediction performance is regime-dependent: models perform well in the 1990s and 2010s but struggle during 2000-2009.
 - The long-short backtest produces positive annualized returns in all three periods before transaction costs.
+- The prediction shows good performance in identifying winning and losing assets.
 - Results should be interpreted as a research prototype because the stock universe is manually selected and subject to survivorship bias.
 
 ## Project Overview
