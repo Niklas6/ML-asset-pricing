@@ -26,11 +26,11 @@ The evaluation is based on out-of-sample metrics that compare model forecasts ag
 ### Prediction
 For each period we predict the returns and compare the R^2 to the benchmark of the risk free rate which gives the prediction performance:
 
-| Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
+| Period   | Ridge model | RF model | Extra tree model | XGB model | LGBM model |
 |----------| ---: | ---: | ---: | ---: | ---: |
-| 1990-1999 | 0.037 | 0.038 | 0.029 | 0.034 | 0.038 |
-| 2000-2009 | -0.015 | -0.013 | -0.022 | -0.01 | -0.01 |
-| 2010-2019 | 0.044 | 0.04 | 0.041 | 0.033 | 0.042 |
+| 1990-1999 | 0.034 | 0.029 | 0.037 | 0.038 | 0.037 |
+| 2000-2009 | -0.010 | -0.023 | -0.016 | -0.009 | -0.012 |
+| 2010-2019 | 0.033 | 0.042 | 0.044 | 0.041 | 0.039 |
 
 The performance of the prediction is shown in the following figure:
 <img src="data/results/performance_slice.jpg" alt="Prediction Performance by Year" width="750">
@@ -40,11 +40,11 @@ The strongest results occur in the 1990s validation period and the 2010s test pe
 
 To test if we can build a strategy that uses the prediction to generate a portfolio of long and short stocks depending on their prediction signal. The portfolio rebalances each month. The compounded average return performance is in the following graphic: 
 
-| Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
+| Period   | Ridge model | RF model | Extra tree model | XGB model | LGBM model |
 |----------| ---: | ---: | ---: | ---: | ---: |
-| 1990-1999 | ... | ... | ... | ... | ... |
-| 2000-2009 | ... | ... | ... | ... | ... |
-| 2010-2019 | ...| ... | ... | ... | ... |
+| 1990-1999 | 0.128 | 0.138 | 0.160 | 0.150 | 0.129 |
+| 2000-2009 | 0.041 | 0.018 | 0.038 | 0.046 | 0.055 |
+| 2010-2019 | 0.081 | 0.052 | 0.095 | 0.081 | 0.038 |
 
 The performance of the backtest is shown in the following figure:
 
