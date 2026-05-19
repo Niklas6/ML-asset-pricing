@@ -102,9 +102,7 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 - Yahoo Finance data is accessible for me, but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
 - The risk-free-rate proxy is an approximation and may not perfectly match the timing, maturity, or investability assumptions used in a real portfolio.
 - The backtest is idealized. It excludes transaction costs, bid-ask spreads, slippage, financing costs, short borrow costs, taxes, liquidity constraints, and position-size limits.
-- The portfolio construction does not include sector neutrality, beta neutrality, volatility targeting, drawdown controls, or explicit leverage constraints.
-- The feature set is intentionally narrow. It uses price, volatility, and beta information but does not include accounting variables, valuation ratios, analyst forecasts, liquidity measures, or macroeconomic variables.
-- The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance but would also increase the risk of overfitting.
+- The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance, but would also increase the risk of overfitting and would require more computation power.
 - The results should be interpreted as evidence from a research prototype, not as evidence of a deployable trading strategy.
 
 ## Future Improvements
