@@ -11,10 +11,9 @@ I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, a
 - Simple lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
 - Prediction performance is regime-dependent: models perform well in the 1990s and 2010s but struggle during 2000-2009.
 - The long-short backtest produces positive annualized returns in all three periods before transaction costs.
- The backtest suggests that the forecasts is better at identifying winning and losing assets than in the R squared error
-- Results should be interpreted as a research prototype because the stock universe is manually selected and subject to survivorship bias.
+- The backtest suggests that the forecasts are better at identifying winning and losing assets than in the R-squared error
 
-## Project Overview
+## Overview
 
 My prediction pipeline uses historical equity prices from Yahoo Finance to build monthly cross-sectional prediction datasets. For each stock-month observation, the model uses lagged return, volatility, and market beta features to predict the following month's return.
 
@@ -85,7 +84,7 @@ The backtest translates the monthly predictions into a long-short portfolio. Wit
 
 ## How to Run
 
-The project can be run with the following terminal commands:
+My project can be run with the following terminal commands:
 
 ```bash
 pip install -r requirements.txt
@@ -112,7 +111,7 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 - Expand the feature set with accounting variables, liquidity measures, valuation ratios, and sector controls.
 
 ## Summary
-Overall, the results are encouraging but not stable enough to claim a trading strategy. The models find some signal in the 1990s and 2010s, while the 2000-2009 period is much harder. The backtest is positive before costs, which suggests that the forecasts may be more useful for ranking stocks than for minimizing squared prediction error.
+Overall, the results suggest that we can predict returns by machine learning models. The backtest suggests that in an idealised setting, this prediction leads to returns. However, we expect that in a practical setting, the prediction is not stable enough to yield positive returns and would need improvements.  The models find some signal in the 1990s and 2010s, while the 2000-2009 period is much harder. The backtest is positive before costs, which suggests that the forecasts may be more useful for ranking stocks than for minimizing squared prediction error.
 
 The main takeaway is that the project gives a reproducible framework for empirical asset-pricing research: build a monthly stock panel, run walk-forward validation, compare model classes, and test whether predictive signals survive a simple portfolio construction step.
 
