@@ -47,7 +47,7 @@ def backtest_diag(df):
     #arithmetic_average_return= df.mean()
     geometric_average_return= ((1 + df).prod() ** (1 / len(df))) - 1
     volatility= df.std()
-    max_drawdown= df.min()
+    max_loss= df.min()
 
 
 
@@ -56,7 +56,7 @@ def backtest_diag(df):
         'annual return': geometric_average_return,
         'volatility':volatility,
         'sharpe': geometric_average_return/volatility,
-        'max drawdown': max_drawdown
+        'max loss': max_loss
     })
     return dg
 
