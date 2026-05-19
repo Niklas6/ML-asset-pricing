@@ -37,7 +37,8 @@ The performance of the prediction is shown in the following figure:
 
 The strongest results occur in the 1990s validation period and the 2010s test period. All models struggled during 2000-2009, particularly around the dot-com crash and global financial crisis, which suggests that the signal has a strong market dependence.
 ### Backtest
-To test if we can build a strategy that uses the prediction to generate a portfolio that generates revenue, we built a .
+
+To test if we can build a strategy that uses the prediction to generate a portfolio of long and short stocks depending on their prediction signal. The portfolio rebalances each month. The compounded average return performance is in the following graphic: 
 
 | Period   | Extra Trees model | LGBM model | RF model | Ridge model | XGB model |
 |----------| ---: | ---: | ---: | ---: | ---: |
