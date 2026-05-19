@@ -99,7 +99,7 @@ The scripts download data from Yahoo Finance, build the processed monthly featur
 ## Limitations
 
 - The stock universe is manually selected and therefore subject to survivorship bias. It overrepresents firms with long available histories and does not properly include delisted, bankrupt, acquired, or renamed firms.
-- Yahoo Finance data is convenient but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
+- Yahoo Finance data is accessible for me, but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
 - The risk-free-rate proxy is an approximation and may not perfectly match the timing, maturity, or investability assumptions used in a real portfolio.
 - The backtest is idealized. It excludes transaction costs, bid-ask spreads, slippage, financing costs, short borrow costs, taxes, liquidity constraints, and position-size limits.
 - The portfolio construction does not include sector neutrality, beta neutrality, volatility targeting, drawdown controls, or explicit leverage constraints.
