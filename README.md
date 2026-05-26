@@ -66,7 +66,7 @@ The project uses a walk-forward prediction design rather than a random train/tes
 
 The raw data consists of adjusted close prices for the selected stock universe, S&P 500 prices as the market benchmark, and a Treasury bill yield proxy for the risk-free rate. Daily prices are converted into month-end observations, and each row in the processed dataset represents one stock at one month-end.
 
-The feature set is intentionally simple and price-based:
+The feature set is price-based:
 
 - Trailing stock returns over 1, 3, 6, and 12 months
 - Trailing daily-return volatility over 1, 3, 6, and 12 months
