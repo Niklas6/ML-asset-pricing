@@ -94,6 +94,11 @@ python scripts/run_model.py
 
 The scripts download data from Yahoo Finance, build the processed monthly feature panel, and write result tables to `data/results/`. Because the data source is live, rerunning the pipeline may produce small changes if Yahoo Finance revises or adjusts historical data.
 
+
+
+Running time for the data download and process less than a minute. The run model takes several minutes and will print each year 1990-2019 after the prediction. 
+
+
 ## Limitations
 
 - The stock universe is manually selected and therefore subject to survivorship bias. It overrepresents firms with long available histories and does not properly include delisted, bankrupt, acquired, or renamed firms.
