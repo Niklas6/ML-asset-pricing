@@ -108,11 +108,7 @@ Running time for the data download and process less than a minute. The run model
 - The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance, but would also increase the risk of overfitting and would require more computational power.
 - The results should be interpreted as evidence from a research prototype, not as evidence of a deployable trading strategy.
 
-## Next Steps and Further Improvements
-- Add transaction costs, turnover, leverage, drawdown, and Sharpe ratio analysis.
-- Compare against equal-weight, market-cap-weight, S&P 500, and simple momentum baselines.
-- Add unit tests for feature construction, train/test splits, evaluation metrics, and portfolio weights.
-- Expand the feature set with accounting variables, liquidity measures, valuation ratios, and sector controls.
+
 
 ## Summary
 
