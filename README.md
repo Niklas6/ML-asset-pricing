@@ -4,7 +4,7 @@ In this project, I study whether simple firm-level price signals can predict nex
 
 Using historical Yahoo Finance data, I built a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
 
-I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a reproducible quantitative research workflow rather than a production trading strategy.
+I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a quantitative research workflow.
 
 ## Insights
 
