@@ -101,12 +101,12 @@ Running time for the data download and process less than a minute. The run model
 
 ## Limitations
 
-- The stock universe is manually selected and therefore subject to survivorship bias. It overrepresents firms with long available histories and does not properly include delisted, bankrupt, acquired, or renamed firms.
-- Yahoo Finance data is accessible, but not institutional-grade. Adjusted prices, corporate actions, missing histories, and ticker changes can be revised or handled inconsistently.
-- The risk-free-rate proxy is an approximation and may not perfectly match the timing, maturity, or investability assumptions used in a real portfolio.
-- The backtest is idealized. It excludes transaction costs, bid-ask spreads, slippage, financing costs, short-borrow costs, taxes, liquidity constraints, and position-size limits.
-- The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search could improve performance, but would also increase the risk of overfitting and would require more computational power.
-- The results should be interpreted as evidence from a research prototype, not as evidence of a deployable trading strategy.
+- The stock universe is manually selected and therefore subject to survivorship bias.
+-  Yahoo Finance data is accessible, but not institutional-grade.
+- The risk-free-rate proxy is an approximation and may not perfectly match assumptions used in a real portfolio.
+- The backtest is idealized at the moment. 
+- The model comparison is based on a limited set of fixed hyperparameter choices after validation. A broader search and combination of models could improve the performance and is a planned improvement. 
+- The results should be interpreted as a research prototype. 
 
 
 
