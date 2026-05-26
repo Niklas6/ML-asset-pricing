@@ -62,7 +62,7 @@ The performance of the backtest is shown in the following figure:
 
 ## Methodology
 
-The project uses a walk-forward cross-sectional prediction design rather than a random train/test split. At each annual step, the models are trained on the previous 20 years of monthly stock observations and then used to predict the next 12 out-of-sample monthly cross-sections. The models are refit once per year, so the evaluation mimics a researcher updating a model through time using only past data.
+The project uses a walk-forward prediction design rather than a random train/test split. At each annual step, the models are trained on the previous 20 years of monthly stock observations and then used to predict the next 12 month. The models are refit once per year, so the evaluation mimics a researcher updating a model through time using only past data.
 
 The raw data consists of adjusted close prices for the selected stock universe, S&P 500 prices as the market benchmark, and a Treasury bill yield proxy for the risk-free rate. Daily prices are converted into month-end observations, and each row in the processed dataset represents one stock at one month-end.
 
