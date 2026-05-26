@@ -32,7 +32,7 @@ Each model is trained on a rolling 20-year window, predicts the following year, 
 
 ## Prediction Results
 
-For each period, the table reports out-of-sample predictive performance using an R-squared-style metric against a risk-free-rate baseline. A positive value means the model improves on the risk-free-rate benchmark; a negative value means it performs worse than that benchmark.
+For each period, the table reports out-of-sample predictive performance using an R-squared-style metric against the risk-free-rate. A positive value means the model performs better than risk-free-rate benchmark; a negative value means it performs worse than that benchmark.
 
 | Period   | Ridge model | RF model | Extra Trees model | XGB model | LGBM model |
 |----------| ---: | ---: | ---: | ---: | ---: |
