@@ -1,8 +1,8 @@
 # Empirical Equity Return Prediction
 
-In this project, I study whether simple firm-level price signals can predict next-month equity returns in the cross-section of U.S. stocks.
+In this project, I study whether simple firm price signals can predict next-month equity returns in the cross-section of U.S. stocks.
 
-Using historical Yahoo Finance data, I built a monthly stock-level dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
+Using historical Yahoo Finance data, I built a monthly stock dataset with lagged returns, volatility, and market beta features. I compare linear, tree-based, and boosting models using walk-forward out-of-sample validation, then test whether the forecasts translate into a monthly rebalanced long-short portfolio.
 
 I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, and Xiu's "Empirical Asset Pricing via Machine Learning" and is intended as a quantitative research workflow.
 
