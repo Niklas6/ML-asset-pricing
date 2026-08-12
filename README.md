@@ -8,7 +8,7 @@ I built this as a compact empirical asset-pricing study inspired by Gu, Kelly, a
 
 ## Insights
 
-- Simple lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
+- Lagged return, volatility, and beta-based features show modest out-of-sample predictive power.
 - Prediction performance is regime-dependent: models show positive performance in the 1990s and 2010s but struggle during 2000-2009.
 - The long-short backtest produces positive annualized returns in all three periods before transaction costs.
 - The backtest suggests that the forecasts may be more useful for ranking stocks than for minimizing squared prediction error.
